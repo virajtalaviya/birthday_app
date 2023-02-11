@@ -1,3 +1,4 @@
+import 'package:birthday_app/components/banner_component.dart';
 import 'package:birthday_app/constants.dart';
 import 'package:birthday_app/get/gif_controller.dart';
 import 'package:birthday_app/screens/gif/gif_download.dart';
@@ -119,6 +120,7 @@ class BirthdayGIF extends StatelessWidget {
                     },
                   );
       }),
+      bottomNavigationBar: const BannerComponent(),
     );
   }
 }

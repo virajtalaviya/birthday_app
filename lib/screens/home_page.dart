@@ -1,63 +1,4 @@
-// import 'package:birthday_app/components/drawer_content.dart';
-// import 'package:birthday_app/components/main_grid_view_screen.dart';
-// import 'package:flutter/material.dart';
-//
-// class HomePage extends StatefulWidget {
-//   const HomePage({Key? key}) : super(key: key);
-//
-//   @override
-//   State<HomePage> createState() => _HomePageState();
-// }
-//
-// class _HomePageState extends State<HomePage>
-//     with SingleTickerProviderStateMixin {
-//   final double maxSlide = 120.0;
-//
-//   AnimationController? animationController;
-//
-//   void toggle() => animationController!.isDismissed
-//       ? animationController!.forward()
-//       : animationController!.reverse();
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     animationController = AnimationController(
-//         vsync: this, duration: const Duration(milliseconds: 300),);
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       color: Colors.white,
-//       child: SafeArea(
-//         child: AnimatedBuilder(
-//           animation: animationController!,
-//           builder: (context, _) {
-//             final slide = maxSlide * animationController!.value;
-//             final scale = 1 - (animationController!.value * 0.3);
-//             return Stack(
-//               children: [
-//                 const DrawerContent(),
-//                 Transform(
-//                   transform: Matrix4.identity()
-//                     ..translate(slide)
-//                     ..scale(scale),
-//                   alignment: Alignment.centerRight,
-//                   child: MainGridViewScreen(
-//                     onTap: toggle,
-//                     showMenuIcon: animationController!.isDismissed,
-//                   ),
-//                 ),
-//               ],
-//             );
-//           },
-//         ),
-//       ),
-//     );
-//   }
-// }
-
+import 'package:birthday_app/components/banner_component.dart';
 import 'package:birthday_app/constants.dart';
 import 'package:birthday_app/screens/age_calculator.dart';
 import 'package:birthday_app/screens/gif/birthday_gif.dart';
@@ -65,6 +6,7 @@ import 'package:birthday_app/screens/image/birthday_images.dart';
 import 'package:birthday_app/screens/quotes/birthday_quotes.dart';
 import 'package:birthday_app/screens/songs/birthday_songs.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 
 class HomePage extends StatefulWidget {
@@ -76,6 +18,75 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  // late BannerAd bannerAd;
+  //
+  // void loadBanner() {
+  //   bannerAd = BannerAd(
+  //     size: AdSize.banner,
+  //     adUnitId: "ca-app-pub-3940256099942544/6300978111",
+  //     listener: const BannerAdListener(),
+  //     request: const AdRequest(),
+  //   );
+  //   bannerAd.load();
+  // }
+  //
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   loadBanner();
+  // }
+
+  InterstitialAd? interstitialAd;
+
+  void loadInterstitialAd() {
+    InterstitialAd.load(
+      adUnitId: "ca-app-pub-3940256099942544/1033173712",
+      request: const AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          interstitialAd = ad;
+          print("============ad loaded");
+          interstitialAd?.fullScreenContentCallback = FullScreenContentCallback(
+            onAdFailedToShowFullScreenContent: (ad, error) {
+              print("1111111111111111111");
+            },
+            onAdDismissedFullScreenContent: (ad) {
+              print("2222222222222222222");
+              interstitialAd?.dispose();
+              print("------------  disposed  ");
+              loadInterstitialAd();
+            },
+            onAdClicked: (ad) {
+              print("3333333333333333333");
+            },
+            onAdImpression: (ad) {
+              print("44444444444444444444");
+            },
+            onAdShowedFullScreenContent: (ad) {
+              print("555555555555555555555");
+            },
+            onAdWillDismissFullScreenContent: (ad) {
+              print("66666666666666666666666");
+            },
+          );
+        },
+        onAdFailedToLoad: (error) {
+          print("==================${error.message}");
+          loadInterstitialAd();
+        },
+      ),
+    );
+
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadInterstitialAd();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -163,6 +174,10 @@ class _HomePageState extends State<HomePage> {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
+                    if (interstitialAd != null) {
+                      interstitialAd?.show();
+                    }
+
                     switch (index) {
                       case 0:
                         Navigator.push(
@@ -177,7 +192,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>  BirthdaySongs(),
+                            builder: (context) => BirthdaySongs(),
                           ),
                         );
                         break;
@@ -259,6 +274,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+      bottomNavigationBar: const BannerComponent(),
     );
   }
 }

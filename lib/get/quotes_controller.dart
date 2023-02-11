@@ -5,20 +5,16 @@ class QuotesController extends GetxController {
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
 
   // QuotesModel? quotesModel;
-  Map<String, List<String>>? quotes = {};
+  // Map<String, List<String>>?
+  dynamic quotes = {};
   RxBool gotQuotes = false.obs;
 
   void getQuotes() async {
     DocumentReference<Map<String, dynamic>> path = fireStore.collection("quotes").doc("quotes");
-
     DocumentSnapshot docData = await path.get();
-    quotes = docData.data() as Map<String, List<String>>;
-    // quotesModel = QuotesModel.fromJson(docData.data() as Map<String, dynamic>);
+    quotes = docData.data();
     gotQuotes.value = true;
-    // .then((value) {
-    //   quotes = value.data();
-    //   gotQuotes.value = true;
-    // });
+
   }
 
   @override

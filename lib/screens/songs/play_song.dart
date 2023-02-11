@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:birthday_app/components/banner_component.dart';
 import 'package:birthday_app/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -34,14 +35,12 @@ class _PlaySongState extends State<PlaySong> {
     if (status.isGranted) {
       String _url = widget.songLink;
       final response = await http.get(Uri.parse(_url));
-      // Get the image name
       String link = widget.songLink;
       link = link.split("/")[7];
       link = link.replaceAll("%20", " ");
       link = link.replaceAll("%2C", " ");
       link = link.replaceAll("%2F", " ");
       link = link.replaceAll("audio ", "");
-      // link = link.substring(0, link.indexOf('.mp3'));
       link = link.replaceAll("%40", "@");
       link = link.split("?alt")[0];
       // final imageName = path.basename(_url);
@@ -54,7 +53,6 @@ class _PlaySongState extends State<PlaySong> {
       }
       // This is the saved image path
       // You can use it to display the saved image later.
-      print("========   file name =======$link========");
       final localPath = path.join(appFolder.path, link);
       // Downloading
       final imageFile = File(localPath);
@@ -313,6 +311,7 @@ class _PlaySongState extends State<PlaySong> {
           ],
         ),
       ),
+      bottomNavigationBar: const BannerComponent(),
     );
   }
 }

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:birthday_app/constants.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
@@ -15,14 +14,15 @@ class ImageDownLoadController extends GetxController {
   void downloadFile(String url) async {
     final appDir = await getExternalStorageDirectory();
     Directory?  appFolder;
-    // try {
-    //    appFolder = Directory('${appDir?.path.split("/Android").first}/Download/');
-    // } catch (e) {
-    //   print("l..................$e");
-    // }
-    // if (!await appFolder.exists()) {
-    //   appFolder.create();
-    // }
+    try {
+       appFolder = Directory('${appDir?.path.split("/Android").first}/Download/');
+    } catch (e) {
+      print("l..................$e");
+    }
+    bool dirExist = await appFolder?.exists() ?? true;
+    if (!dirExist) {
+      appFolder?.create();
+    }
     String link = url;
     link = link.split("/")[7];
     link = link.replaceAll("%20", " ");
@@ -32,17 +32,17 @@ class ImageDownLoadController extends GetxController {
     link = link.substring(0, link.indexOf('?'));
     link = link.replaceAll("%40", "@");
     // isDownloading.value = true;
-    try {
-      Dio().download(
-        url,
-        appDir?.path,
-        onReceiveProgress: (count, total) {
-          print("-----$count------------$total---------");
-        },
-      );
-    } catch (e) {
-      print("--nnnnnnnnnnnnnnnnnnnnn    $e");
-    }
+    // try {
+    //   Dio().download(
+    //     url,
+    //     appDir?.path,
+    //     onReceiveProgress: (count, total) {
+    //       print("-----$count------------$total---------");
+    //     },
+    //   );
+    // } catch (e) {
+    //   print("--nnnnnnnnnnnnnnnnnnnnn    $e");
+    // }
   }
 
   void askingPermission(String url, BuildContext context) async {

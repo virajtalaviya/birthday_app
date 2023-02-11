@@ -1,3 +1,4 @@
+import 'package:birthday_app/components/banner_component.dart';
 import 'package:birthday_app/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -148,6 +149,7 @@ class _CopyQuoteState extends State<CopyQuote> {
           ],
         ),
       ),
+      bottomNavigationBar: const BannerComponent(),
     );
   }
 }

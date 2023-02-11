@@ -1,3 +1,4 @@
+import 'package:birthday_app/components/banner_component.dart';
 import 'package:birthday_app/constants.dart';
 import 'package:birthday_app/get/quotes_controller.dart';
 // import 'package:birthday_app/retrofit_service/model/quotes/quotes_model.dart';
@@ -162,7 +163,7 @@ class _BirthdayQuotesState extends State<BirthdayQuotes> {
                     );
                   },
                 );
-        })
+        }),
 
         // body: StreamBuilder(
         //   stream: FirebaseFirestore.instance.collection("quotes/quotes/data").snapshots(),
@@ -175,6 +176,7 @@ class _BirthdayQuotesState extends State<BirthdayQuotes> {
         //     );
         //   },
         // ),
+        bottomNavigationBar: const BannerComponent(),
         );
   }
 }

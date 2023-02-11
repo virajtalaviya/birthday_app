@@ -1,3 +1,4 @@
+import 'package:birthday_app/components/banner_component.dart';
 import 'package:birthday_app/constants.dart';
 import 'package:birthday_app/get/image/image_controller.dart';
 import 'package:birthday_app/screens/image/image_download.dart';
@@ -110,6 +111,7 @@ class BirthdayImages extends StatelessWidget {
                     );
         },
       ),
+      bottomNavigationBar: const BannerComponent(),
     );
   }
 }

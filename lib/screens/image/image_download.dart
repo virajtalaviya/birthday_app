@@ -1,3 +1,4 @@
+import 'package:birthday_app/components/banner_component.dart';
 import 'package:birthday_app/constants.dart';
 import 'package:birthday_app/get/image/image_download_controller.dart';
 import 'package:flutter/material.dart';
@@ -5,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ImageDownload extends StatelessWidget {
-  ImageDownload({Key? key, required this.imageLink}) : super(key: key);
+  const ImageDownload({Key? key, required this.imageLink}) : super(key: key);
   final String imageLink;
 
 //   @override
@@ -173,6 +174,7 @@ class ImageDownload extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: const BannerComponent(),
     );
   }
 }

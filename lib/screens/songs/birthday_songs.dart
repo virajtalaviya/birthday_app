@@ -1,3 +1,4 @@
+import 'package:birthday_app/components/banner_component.dart';
 import 'package:birthday_app/constants.dart';
 import 'package:birthday_app/get/audio/audio_get_controller.dart';
 import 'package:birthday_app/screens/songs/play_song.dart';
@@ -125,10 +126,7 @@ class BirthdaySongs extends StatelessWidget {
                   );
       }),
 
-      //
-      // songsModel == null
-      //     ?
-      //     :
+      bottomNavigationBar: const BannerComponent(),
     );
   }
 }

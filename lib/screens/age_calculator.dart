@@ -27,7 +27,7 @@ class _AgeCalculatorState extends State<AgeCalculator> {
   @override
   void initState() {
     super.initState();
-    formattedCurrentDate = DateFormat('yyyy-MM-dd').format(currentTime);
+    formattedCurrentDate = DateFormat('dd-MM-yyyy').format(currentTime);
     setState(() {});
   }
 
@@ -64,6 +64,86 @@ class _AgeCalculatorState extends State<AgeCalculator> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 15),
+              Text(
+                "Date of Birth",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: const Color(0xFF7232FB),
+                  fontWeight: FontWeight.bold,
+                  fontFamily: Constants.fontFamilyRegular,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.deepPurple.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: TextField(
+                  onTap: () async {
+                    selectedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1950),
+                      lastDate: DateTime(DateTime.now().year + 1),
+                    );
+                    if (selectedDate != null) {
+                      formattedSelectedDate = DateFormat('dd-MM-yyyy').format(selectedDate!);
+                      selectDateController.text = formattedSelectedDate!.replaceAll("-", "/");
+                      setState(() {});
+                    }
+                  },
+                  controller: selectDateController,
+                  readOnly: true,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: Constants.fontFamilyRegular,
+                  ),
+                  decoration: InputDecoration(
+                    focusColor: const Color(0xFF7232FB),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide.none,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: Color(0xFF7232FB),
+                        width: 1.5,
+                      ),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    suffixIconColor: const Color(0xFF7232FB),
+                    suffixIcon: IconButton(
+                      onPressed: () {},
+                      // onPressed: () async {
+                      //   selectedDate = await showDatePicker(
+                      //     context: context,
+                      //     initialDate: DateTime.now(),
+                      //     firstDate: DateTime(2000),
+                      //     lastDate: DateTime(DateTime.now().year + 1),
+                      //   );
+                      //   if (selectedDate != null) {
+                      //     formattedSelectedDate =
+                      //         DateFormat('yyyy-MM-dd').format(selectedDate!);
+                      //     selectDateController.text =
+                      //         formattedSelectedDate!.replaceAll("-", "/");
+                      //     setState(() {});
+                      //   }
+                      // },
+                      icon: const Icon(
+                        Icons.calendar_month,
+                        color: Color(0xFF7232FB),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              /// date of birth
               Text(
                 "Today's Date",
                 style: TextStyle(
@@ -114,83 +194,6 @@ class _AgeCalculatorState extends State<AgeCalculator> {
                     focusedErrorBorder: OutlineInputBorder(
                       borderSide: BorderSide.none,
                       borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                "Date of Birth",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: const Color(0xFF7232FB),
-                  fontWeight: FontWeight.bold,
-                  fontFamily: Constants.fontFamilyRegular,
-                ),
-              ),
-              const SizedBox(height: 10),
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.deepPurple.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: TextField(
-                  onTap: () async {
-                    selectedDate = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1950),
-                      lastDate: DateTime(DateTime.now().year + 1),
-                    );
-                    if (selectedDate != null) {
-                      formattedSelectedDate = DateFormat('yyyy-MM-dd').format(selectedDate!);
-                      selectDateController.text = formattedSelectedDate!.replaceAll("-", "/");
-                      setState(() {});
-                    }
-                  },
-                  controller: selectDateController,
-                  readOnly: true,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: Constants.fontFamilyRegular,
-                  ),
-                  decoration: InputDecoration(
-                    focusColor: const Color(0xFF7232FB),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        color: Color(0xFF7232FB),
-                        width: 1.5,
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    suffixIconColor: const Color(0xFF7232FB),
-                    suffixIcon: IconButton(
-                      onPressed: () {},
-                      // onPressed: () async {
-                      //   selectedDate = await showDatePicker(
-                      //     context: context,
-                      //     initialDate: DateTime.now(),
-                      //     firstDate: DateTime(2000),
-                      //     lastDate: DateTime(DateTime.now().year + 1),
-                      //   );
-                      //   if (selectedDate != null) {
-                      //     formattedSelectedDate =
-                      //         DateFormat('yyyy-MM-dd').format(selectedDate!);
-                      //     selectDateController.text =
-                      //         formattedSelectedDate!.replaceAll("-", "/");
-                      //     setState(() {});
-                      //   }
-                      // },
-                      icon: const Icon(
-                        Icons.calendar_month,
-                        color: Color(0xFF7232FB),
-                      ),
                     ),
                   ),
                 ),

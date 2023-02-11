@@ -1,10 +1,6 @@
-import 'package:birthday_app/retrofit_service/api_service.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class Constants {
-  static ApiClient apiClient =
-      ApiClient(Dio(BaseOptions(contentType: "application/json")));
   static String fontFamilyMedium = "Heebo-Medium";
   static String fontFamilyRegular = "Heebo-Regular";
   static List<GridContent> content = [
@@ -49,10 +45,10 @@ class Constants {
       image: "assets/drawer/ic_rateus.png",
       name: "Rate us",
     ),
-    DrawerContent(
-      image: "assets/drawer/ic_moreapps.png",
-      name: "More Apps",
-    ),
+    // DrawerContent(
+    //   image: "assets/drawer/ic_moreapps.png",
+    //   name: "More Apps",
+    // ),
     DrawerContent(
       image: "assets/drawer/ic_privacypolicy.png",
       name: "Privacy Policy",

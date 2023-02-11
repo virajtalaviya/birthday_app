@@ -77,7 +77,7 @@ class _BirthdayQuotesState extends State<BirthdayQuotes> {
               : ListView.builder(
                   physics: const BouncingScrollPhysics(),
                   padding: const EdgeInsets.only(right: 10, left: 10, top: 10),
-                  itemCount: quotesController.quotesModel?.data?.length ?? 0, //quotesModel!.data!.length,
+                  itemCount: quotesController.quotes?["data"]?.length ?? 0, //quotesModel!.data!.length,
                   itemBuilder: (context, index) {
                     return InkWell(
                       // onTap: () {
@@ -105,7 +105,7 @@ class _BirthdayQuotesState extends State<BirthdayQuotes> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Text(
-                              quotesController.quotesModel?.data?[index] ?? "...",
+                              quotesController.quotes?["data"]?[index] ?? "...",
                               style: TextStyle(
                                 fontFamily: Constants.fontFamilyMedium,
                                 fontSize: 17,
@@ -115,7 +115,7 @@ class _BirthdayQuotesState extends State<BirthdayQuotes> {
                             InkWell(
                               onTap: () async {
                                 await Clipboard.setData(ClipboardData(
-                                  text: quotesController.quotesModel?.data?[index] ?? "...",
+                                  text: quotesController.quotes?["data"]?[index] ?? "...",
                                 )).then((value) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(

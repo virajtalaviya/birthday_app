@@ -14,11 +14,9 @@ class PlaySong extends StatefulWidget {
     Key? key,
     required this.name,
     required this.songLink,
-    required this.icon,
   }) : super(key: key);
   final String name;
   final String songLink;
-  final String icon;
 
   @override
   State<PlaySong> createState() => _PlaySongState();
@@ -37,7 +35,15 @@ class _PlaySongState extends State<PlaySong> {
       String _url = widget.songLink;
       final response = await http.get(Uri.parse(_url));
       // Get the image name
-      String songName = widget.songLink.split("/").last;
+      String link = widget.songLink;
+      link = link.split("/")[7];
+      link = link.replaceAll("%20", " ");
+      link = link.replaceAll("%2C", " ");
+      link = link.replaceAll("%2F", " ");
+      link = link.replaceAll("audio ", "");
+      // link = link.substring(0, link.indexOf('.mp3'));
+      link = link.replaceAll("%40", "@");
+      link = link.split("?alt")[0];
       // final imageName = path.basename(_url);
       // Get the document directory path
       final appDir = await getExternalStorageDirectory();
@@ -48,7 +54,8 @@ class _PlaySongState extends State<PlaySong> {
       }
       // This is the saved image path
       // You can use it to display the saved image later.
-      final localPath = path.join(appFolder.path, songName);
+      print("========   file name =======$link========");
+      final localPath = path.join(appFolder.path, link);
       // Downloading
       final imageFile = File(localPath);
       await imageFile.writeAsBytes(response.bodyBytes).then((value) {
@@ -156,8 +163,8 @@ class _PlaySongState extends State<PlaySong> {
                 decoration: BoxDecoration(
                   color: Colors.deepPurpleAccent.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                    image: NetworkImage(widget.icon),
+                  image: const DecorationImage(
+                    image: AssetImage("assets/images/ic_music.png"),
                     // fit: BoxFit.fill,
                   ),
                 ),

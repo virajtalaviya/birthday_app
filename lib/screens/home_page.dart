@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                 height: 120,
               ),
               const SizedBox(height: 15),
-               Text(
+              Text(
                 "Birthday Master Pro",
                 style: TextStyle(
                   color: const Color(0xFF7232FB),
@@ -102,12 +102,14 @@ class _HomePageState extends State<HomePage> {
               ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: 4,
+                itemCount: Constants.drawerContent.length,
                 itemBuilder: (context, index) {
                   return ListTile(
                     onTap: () {},
-                    leading: Image.asset(Constants.drawerContent[index].image,
-                        height: 25),
+                    leading: Image.asset(
+                      Constants.drawerContent[index].image,
+                      height: 25,
+                    ),
                     title: Text(Constants.drawerContent[index].name),
                   );
                 },
@@ -175,7 +177,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const BirthdaySongs(),
+                            builder: (context) =>  BirthdaySongs(),
                           ),
                         );
                         break;
@@ -225,8 +227,7 @@ class _HomePageState extends State<HomePage> {
                               shape: BoxShape.circle,
                               boxShadow: [
                                 BoxShadow(
-                                  color: Constants.content[index].bgColor
-                                      .withOpacity(0.3),
+                                  color: Constants.content[index].bgColor.withOpacity(0.3),
                                   blurRadius: 10,
                                   spreadRadius: 1,
                                   offset: const Offset(1, 1),

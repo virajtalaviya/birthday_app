@@ -1,5 +1,5 @@
 import 'package:birthday_app/constants.dart';
-import 'package:birthday_app/get/image_controller.dart';
+import 'package:birthday_app/get/image/image_controller.dart';
 import 'package:birthday_app/screens/image/image_download.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -67,7 +67,6 @@ class BirthdayImages extends StatelessWidget {
                               MaterialPageRoute(
                                 builder: (context) => ImageDownload(
                                   imageLink: imageController.fileURLs[index],
-                                  imageController: imageController,
                                 ),
                               ),
                             );

@@ -1,7 +1,6 @@
 import 'package:birthday_app/components/banner_component.dart';
 import 'package:birthday_app/constants.dart';
 import 'package:birthday_app/get/gif_controller.dart';
-import 'package:birthday_app/screens/gif/gif_download.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -62,12 +61,8 @@ class BirthdayGIF extends StatelessWidget {
                       // Random random = Random();
                       return InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => GifDownload(gifLink: gifController.gifURLs[index]),
-                            ),
-                          );
+                          gifController.currentIndex = index;
+                          gifController.showInterstitial();
                         },
                         child: Column(
                           children: [

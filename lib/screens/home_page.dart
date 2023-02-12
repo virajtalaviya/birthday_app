@@ -18,67 +18,71 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  int currentTappedIndex = 0;
 
-  // late BannerAd bannerAd;
-  //
-  // void loadBanner() {
-  //   bannerAd = BannerAd(
-  //     size: AdSize.banner,
-  //     adUnitId: "ca-app-pub-3940256099942544/6300978111",
-  //     listener: const BannerAdListener(),
-  //     request: const AdRequest(),
-  //   );
-  //   bannerAd.load();
-  // }
-  //
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   loadBanner();
-  // }
+  void navigatorFunction() {
+    switch (currentTappedIndex) {
+      case 0:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const AgeCalculator()));
+        break;
+      case 1:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => BirthdaySongs()));
+        break;
+      case 2:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => BirthdayImages()));
+        break;
+      case 3:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => BirthdayGIF()));
+        break;
+      case 4:
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const BirthdayQuotes()));
+        break;
+      case 5:
+        MapsLauncher.launchQuery("Cake shop near me");
+        break;
+    }
+  }
 
   InterstitialAd? interstitialAd;
+  int adLoadedNumber = 0;
 
   void loadInterstitialAd() {
     InterstitialAd.load(
-      adUnitId: "ca-app-pub-3940256099942544/1033173712",
+      adUnitId: Constants.interstitialAdId,
       request: const AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
-        onAdLoaded: (ad) {
-          interstitialAd = ad;
-          print("============ad loaded");
+        onAdLoaded: (interAd) {
+          interstitialAd = interAd;
+          adLoadedNumber = 0;
           interstitialAd?.fullScreenContentCallback = FullScreenContentCallback(
             onAdFailedToShowFullScreenContent: (ad, error) {
-              print("1111111111111111111");
+              ad.dispose();
+              navigatorFunction();
             },
             onAdDismissedFullScreenContent: (ad) {
-              print("2222222222222222222");
               interstitialAd?.dispose();
-              print("------------  disposed  ");
               loadInterstitialAd();
+              navigatorFunction();
             },
-            onAdClicked: (ad) {
-              print("3333333333333333333");
-            },
-            onAdImpression: (ad) {
-              print("44444444444444444444");
-            },
+            onAdClicked: (ad) {},
+            onAdImpression: (ad) {},
             onAdShowedFullScreenContent: (ad) {
-              print("555555555555555555555");
-            },
-            onAdWillDismissFullScreenContent: (ad) {
-              print("66666666666666666666666");
+              Constants.adLoadTimes++;
             },
           );
         },
         onAdFailedToLoad: (error) {
-          print("==================${error.message}");
-          loadInterstitialAd();
+          adLoadedNumber = adLoadedNumber + 1;
+          if (adLoadedNumber <= 3) {
+            loadInterstitialAd();
+          } else {
+            Future.delayed(const Duration(seconds: 10), () {
+              adLoadedNumber = 0;
+            });
+          }
         },
       ),
     );
-
   }
 
   @override
@@ -174,55 +178,15 @@ class _HomePageState extends State<HomePage> {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
+                    currentTappedIndex = index;
                     if (interstitialAd != null) {
-                      interstitialAd?.show();
-                    }
-
-                    switch (index) {
-                      case 0:
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const AgeCalculator(),
-                          ),
-                        );
-
-                        break;
-                      case 1:
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => BirthdaySongs(),
-                          ),
-                        );
-                        break;
-                      case 2:
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => BirthdayImages(),
-                          ),
-                        );
-                        break;
-                      case 3:
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => BirthdayGIF(),
-                          ),
-                        );
-                        break;
-                      case 4:
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const BirthdayQuotes(),
-                          ),
-                        );
-                        break;
-                      case 5:
-                        MapsLauncher.launchQuery("Cake shop near me");
-                        break;
+                      if (Constants.adLoadTimes % 3 == 0) {
+                        interstitialAd?.show();
+                      } else {
+                        navigatorFunction();
+                      }
+                    } else {
+                      navigatorFunction();
                     }
                   },
                   child: Container(

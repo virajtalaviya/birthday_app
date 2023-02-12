@@ -1,3 +1,4 @@
+import 'package:birthday_app/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
@@ -14,7 +15,7 @@ class _BannerComponentState extends State<BannerComponent> {
   void loadBanner() {
     bannerAd = BannerAd(
       size: AdSize.banner,
-      adUnitId: "ca-app-pub-3940256099942544/6300978111",
+      adUnitId: Constants.bannerAdId,
       listener: const BannerAdListener(),
       request: const AdRequest(),
     );

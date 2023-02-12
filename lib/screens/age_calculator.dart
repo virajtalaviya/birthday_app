@@ -25,11 +25,76 @@ class _AgeCalculatorState extends State<AgeCalculator> {
   int year = 00;
   int months = 00;
 
+
+  // int currentIndex = 0;
+  //
+  // InterstitialAd? interstitialAd;
+  // int adLoadedNumber = 0;
+  //
+  // void navigatorFunction() {
+  //   // Get.to(() =>);
+  // }
+  //
+  // void showInterstitial() {
+  //   if (interstitialAd != null) {
+  //     if (Constants.adLoadTimes % 3 == 0) {
+  //       interstitialAd?.show();
+  //     } else {
+  //       navigatorFunction();
+  //     }
+  //   } else {
+  //     navigatorFunction();
+  //   }
+  // }
+  //
+  // void loadInterstitialAd() {
+  //   InterstitialAd.load(
+  //     adUnitId: Constants.interstitialAdId,
+  //     request: const AdRequest(),
+  //     adLoadCallback: InterstitialAdLoadCallback(
+  //       onAdLoaded: (interAd) {
+  //         interstitialAd = interAd;
+  //         adLoadedNumber = 0;
+  //         interstitialAd?.fullScreenContentCallback = FullScreenContentCallback(
+  //           onAdFailedToShowFullScreenContent: (ad, error) {
+  //             ad.dispose();
+  //             navigatorFunction();
+  //           },
+  //           onAdDismissedFullScreenContent: (ad) {
+  //             interstitialAd?.dispose();
+  //             loadInterstitialAd();
+  //             navigatorFunction();
+  //           },
+  //           onAdClicked: (ad) {},
+  //           onAdImpression: (ad) {},
+  //           onAdShowedFullScreenContent: (ad) {
+  //             Constants.adLoadTimes++;
+  //           },
+  //         );
+  //       },
+  //       onAdFailedToLoad: (error) {
+  //         adLoadedNumber = adLoadedNumber + 1;
+  //         if (adLoadedNumber <= 3) {
+  //           loadInterstitialAd();
+  //         } else {
+  //           Future.delayed(const Duration(seconds: 10), () {
+  //             adLoadedNumber = 0;
+  //           });
+  //         }
+  //       },
+  //     ),
+  //   );
+  // }
+
+
+
+
   @override
   void initState() {
     super.initState();
     formattedCurrentDate = DateFormat('dd-MM-yyyy').format(currentTime);
     setState(() {});
+    // loadInterstitialAd();
   }
 
   @override

@@ -1,7 +1,6 @@
 import 'package:birthday_app/components/banner_component.dart';
 import 'package:birthday_app/constants.dart';
 import 'package:birthday_app/get/audio/audio_get_controller.dart';
-import 'package:birthday_app/screens/songs/play_song.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -94,28 +93,16 @@ class BirthdaySongs extends StatelessWidget {
                         ),
                         child: ListTile(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PlaySong(
-                                  name: audioController.audioURLs[index]["name"] ?? "",
-                                  songLink: audioController.audioURLs[index]["audioLink"] ?? "",
-                                  // icon: songsModel!.data![index].icon_url ?? "",
-                                ),
-                              ),
-                            );
+                            audioController.currentIndex = index;
+                            audioController.showInterstitial();
                           },
-                          // leading: Image.network(
-                          //   songsModel!.data![index].icon_url ?? "",
-                          //   height: 30,
-                          // ),
                           leading: Image.asset(
                             "assets/images/ic_music.png",
                             height: 35,
                             width: 35,
                           ),
                           title: Text(
-                            "${audioController.audioURLs[index]["name"]}", //"""${songsModel!.data![index].name}",
+                            "${audioController.audioURLs[index]["name"]}",
                             style: TextStyle(
                               fontFamily: Constants.fontFamilyRegular,
                             ),
@@ -125,7 +112,6 @@ class BirthdaySongs extends StatelessWidget {
                     },
                   );
       }),
-
       bottomNavigationBar: const BannerComponent(),
     );
   }

@@ -16,8 +16,8 @@ class ImageDownLoadController extends GetxController {
     Directory?  appFolder;
     try {
        appFolder = Directory('${appDir?.path.split("/Android").first}/Download/');
-    } catch (e) {
-      print("l..................$e");
+    } catch (_) {
+
     }
     bool dirExist = await appFolder?.exists() ?? true;
     if (!dirExist) {

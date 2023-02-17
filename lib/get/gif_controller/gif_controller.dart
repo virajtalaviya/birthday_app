@@ -30,6 +30,7 @@ class GIFController extends GetxController {
     } else {
       navigatorFunction();
     }
+    Constants.adLoadTimes++;
   }
 
   void loadInterstitialAd() {
@@ -43,17 +44,20 @@ class GIFController extends GetxController {
           interstitialAd?.fullScreenContentCallback = FullScreenContentCallback(
             onAdFailedToShowFullScreenContent: (ad, error) {
               ad.dispose();
+              interstitialAd = null;
+              loadInterstitialAd();
               navigatorFunction();
             },
             onAdDismissedFullScreenContent: (ad) {
               interstitialAd?.dispose();
+              interstitialAd = null;
               loadInterstitialAd();
               navigatorFunction();
             },
             onAdClicked: (ad) {},
             onAdImpression: (ad) {},
             onAdShowedFullScreenContent: (ad) {
-              Constants.adLoadTimes++;
+
             },
           );
         },

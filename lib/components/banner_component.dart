@@ -10,7 +10,7 @@ class BannerComponent extends StatefulWidget {
 }
 
 class _BannerComponentState extends State<BannerComponent> {
-  late BannerAd bannerAd;
+  BannerAd? bannerAd;
 
   void loadBanner() {
     bannerAd = BannerAd(
@@ -19,7 +19,10 @@ class _BannerComponentState extends State<BannerComponent> {
       listener: const BannerAdListener(),
       request: const AdRequest(),
     );
-    bannerAd.load();
+
+    if (bannerAd != null) {
+      bannerAd?.load();
+    }
   }
 
   @override
@@ -33,7 +36,7 @@ class _BannerComponentState extends State<BannerComponent> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50,
-      child: AdWidget(ad: bannerAd),
+      child: bannerAd != null ? AdWidget(ad: bannerAd!) : const SizedBox(),
     );
   }
 }

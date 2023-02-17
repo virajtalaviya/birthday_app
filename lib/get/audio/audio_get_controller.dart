@@ -18,10 +18,13 @@ class AudioController extends GetxController {
   int adLoadedNumber = 0;
 
   void navigatorFunction() {
-    Get.to(() =>PlaySong(
-      name: audioURLs[currentIndex]["name"] ?? "",
-      songLink: audioURLs[currentIndex]["audioLink"] ?? "",
-    ),);
+    Get.to(
+      () => PlaySong(
+        name: audioURLs[currentIndex]["name"] ?? "",
+        songLink: audioURLs[currentIndex]["audioLink"] ?? "",
+      ),
+      arguments: audioURLs[currentIndex]["audioLink"],
+    );
   }
 
   void showInterstitial() {
@@ -34,6 +37,7 @@ class AudioController extends GetxController {
     } else {
       navigatorFunction();
     }
+    Constants.adLoadTimes++;
   }
 
   void loadInterstitialAd() {
@@ -47,18 +51,19 @@ class AudioController extends GetxController {
           interstitialAd?.fullScreenContentCallback = FullScreenContentCallback(
             onAdFailedToShowFullScreenContent: (ad, error) {
               ad.dispose();
+              interstitialAd = null;
+              loadInterstitialAd();
               navigatorFunction();
             },
             onAdDismissedFullScreenContent: (ad) {
               interstitialAd?.dispose();
+              interstitialAd = null;
               loadInterstitialAd();
               navigatorFunction();
             },
             onAdClicked: (ad) {},
             onAdImpression: (ad) {},
-            onAdShowedFullScreenContent: (ad) {
-              Constants.adLoadTimes++;
-            },
+            onAdShowedFullScreenContent: (ad) {},
           );
         },
         onAdFailedToLoad: (error) {
@@ -74,12 +79,6 @@ class AudioController extends GetxController {
       ),
     );
   }
-
-
-
-
-
-
 
   Future getListOfAudio() async {
     try {

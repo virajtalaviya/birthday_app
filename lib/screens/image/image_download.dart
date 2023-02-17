@@ -90,15 +90,18 @@ class ImageDownload extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
-            Container(
-              margin: const EdgeInsets.only(top: 20, right: 20, left: 20),
-              height: MediaQuery.of(context).size.height * 0.6,
-              decoration: BoxDecoration(
-                color: Colors.deepPurple.shade100,
-                borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                  image: NetworkImage(imageLink),
-                  fit: BoxFit.fill,
+            AspectRatio(
+              aspectRatio: 1,
+              child: Container(
+                margin: const EdgeInsets.only(top: 20, right: 20, left: 20),
+                // height: MediaQuery.of(context).size.height * 0.6,
+                decoration: BoxDecoration(
+                  color: Colors.deepPurple.shade100,
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                    image: NetworkImage(imageLink),
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ),
             ),
@@ -171,6 +174,7 @@ class ImageDownload extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 20),
           ],
         ),
       ),

@@ -1,7 +1,10 @@
 import 'dart:io';
+import 'dart:isolate';
+import 'dart:ui';
 
 import 'package:birthday_app/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -10,18 +13,15 @@ class ImageDownLoadController extends GetxController {
   RxBool isDownloading = false.obs;
 
   RxInt progress = 0.obs;
+  final ReceivePort _port = ReceivePort();
 
   void downloadFile(String url) async {
     final appDir = await getExternalStorageDirectory();
-    Directory?  appFolder;
-    try {
-       appFolder = Directory('${appDir?.path.split("/Android").first}/Download/');
-    } catch (_) {
+    Directory appFolder = Directory('${appDir?.path.split("/Android").first}/Birthday_master/');
 
-    }
-    bool dirExist = await appFolder?.exists() ?? true;
+    bool dirExist = await appFolder.exists();
     if (!dirExist) {
-      appFolder?.create();
+      appFolder.create();
     }
     String link = url;
     link = link.split("/")[7];
@@ -31,10 +31,16 @@ class ImageDownLoadController extends GetxController {
     link = link.replaceAll("audio ", "");
     link = link.substring(0, link.indexOf('?'));
     link = link.replaceAll("%40", "@");
-    // isDownloading.value = true;
+    isDownloading.value = true;
+
+    FlutterDownloader.enqueue(
+      url: url,
+      savedDir: appFolder.path,
+      showNotification: false,
+    );
     // try {
-    //   Dio().download(
-    //     url,
+    //   Dio().downloadUri(
+    //     Uri.parse(url),
     //     appDir?.path,
     //     onReceiveProgress: (count, total) {
     //       print("-----$count------------$total---------");
@@ -105,5 +111,59 @@ class ImageDownLoadController extends GetxController {
       //   ),
       // );
     }
+  }
+
+  static void downloadCallBack(String id, DownloadTaskStatus status, int progress) {
+    IsolateNameServer.lookupPortByName('downloader_send_port')?.send([id, status.value, progress]);
+  }
+
+  void _unbindBackgroundIsolate() {
+    IsolateNameServer.removePortNameMapping('downloader_send_port');
+  }
+
+  void _bindBackgroundIsolate() {
+    final isSuccess = IsolateNameServer.registerPortWithName(_port.sendPort, 'downloader_send_port');
+    if (!isSuccess) {
+      _unbindBackgroundIsolate();
+      _bindBackgroundIsolate();
+      return;
+    }
+
+    _port.listen((dynamic data) {
+      // final taskId = (data as List<dynamic>)[0] as String;
+      // final status = DownloadTaskStatus(data[1] as int);
+      final progress = data[2] as int;
+      if (progress == 100) {
+        isDownloading.value = false;
+        Get.rawSnackbar(
+          message: "Image downloaded successfully",
+          margin: const EdgeInsets.all(10),
+
+        );
+      }
+      // if (_tasks != null && _tasks!.isNotEmpty) {
+      //   final task = _tasks!.firstWhere((task) => task.taskId == taskId);
+      //   setState(() {
+      //     task
+      //       ..status = status
+      //       ..progress = progress;
+      //   });
+      // }
+    });
+  }
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    _bindBackgroundIsolate();
+    FlutterDownloader.registerCallback(downloadCallBack, step: 1);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _unbindBackgroundIsolate();
   }
 }

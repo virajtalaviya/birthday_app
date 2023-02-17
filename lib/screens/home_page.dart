@@ -8,6 +8,8 @@ import 'package:birthday_app/screens/songs/birthday_songs.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -57,18 +59,19 @@ class _HomePageState extends State<HomePage> {
           interstitialAd?.fullScreenContentCallback = FullScreenContentCallback(
             onAdFailedToShowFullScreenContent: (ad, error) {
               ad.dispose();
+              interstitialAd = null;
+              loadInterstitialAd();
               navigatorFunction();
             },
             onAdDismissedFullScreenContent: (ad) {
               interstitialAd?.dispose();
+              interstitialAd = null;
               loadInterstitialAd();
               navigatorFunction();
             },
             onAdClicked: (ad) {},
             onAdImpression: (ad) {},
-            onAdShowedFullScreenContent: (ad) {
-              Constants.adLoadTimes++;
-            },
+            onAdShowedFullScreenContent: (ad) {},
           );
         },
         onAdFailedToLoad: (error) {
@@ -120,7 +123,23 @@ class _HomePageState extends State<HomePage> {
                 itemCount: Constants.drawerContent.length,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    onTap: () {},
+                    onTap: () {
+                      switch (index) {
+                        case 0:
+                          Share.share("Hello");
+                          break;
+                        case 1:
+                          launchUrl(
+                            Uri.parse(
+                              "https://play.google.com/store/apps/details?id=com.instagram.android",
+                            ),
+                            mode: LaunchMode.externalNonBrowserApplication,
+                          );
+                          break;
+                        case 2:
+                          break;
+                      }
+                    },
                     leading: Image.asset(
                       Constants.drawerContent[index].image,
                       height: 25,
@@ -180,6 +199,7 @@ class _HomePageState extends State<HomePage> {
                   onTap: () {
                     currentTappedIndex = index;
                     if (interstitialAd != null) {
+                      print("+++++++++++++++>${Constants.adLoadTimes % 3}");
                       if (Constants.adLoadTimes % 3 == 0) {
                         interstitialAd?.show();
                       } else {
@@ -188,6 +208,7 @@ class _HomePageState extends State<HomePage> {
                     } else {
                       navigatorFunction();
                     }
+                    Constants.adLoadTimes++;
                   },
                   child: Container(
                     decoration: BoxDecoration(

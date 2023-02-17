@@ -45,8 +45,9 @@ dependencies:
   firebase_storage: 11.0.9
   firebase_core: ^2.4.0
   cloud_firestore: ^4.3.1
-  dio: ^4.0.6
+  flutter_downloader: ^1.10.2
   google_mobile_ads: ^2.3.0
+  url_launcher: ^6.1.9
 
 dev_dependencies:
   flutter_test:

@@ -6,33 +6,11 @@ import 'package:birthday_app/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:get/get.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class AudioPlayController extends GetxController {
-  final audioPlayer = AudioPlayer();
-
-  var data = Get.arguments;
-  RxBool isPlaying = false.obs;
-
-  RxDouble audioDurationInDouble = 0.0.obs;
-  RxDouble audioPositionInDouble = 0.0.obs;
-
-  Rx<Duration> duration = const Duration().obs;
-  Rx<Duration> position = const Duration().obs;
-
-  String printDuration(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(2, "0");
-    String twoDigitMinutes = twoDigits(duration.inMinutes.remainder(60));
-    String twoDigitSeconds = twoDigits(duration.inSeconds.remainder(60));
-    // return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
-    return "$twoDigitMinutes:$twoDigitSeconds";
-  }
-
+class GIFDownloadController extends GetxController {
   RxBool isDownloading = false.obs;
-
-  RxInt progress = 0.obs;
   final ReceivePort _port = ReceivePort();
 
   void downloadFile(String url) async {
@@ -58,6 +36,17 @@ class AudioPlayController extends GetxController {
       savedDir: appFolder.path,
       showNotification: false,
     );
+    // try {
+    //   Dio().downloadUri(
+    //     Uri.parse(url),
+    //     appDir?.path,
+    //     onReceiveProgress: (count, total) {
+    //       print("-----$count------------$total---------");
+    //     },
+    //   );
+    // } catch (e) {
+    //   print("--nnnnnnnnnnnnnnnnnnnnn    $e");
+    // }
   }
 
   void askingPermission(String url, BuildContext context) async {
@@ -122,6 +111,7 @@ class AudioPlayController extends GetxController {
     }
   }
 
+
   static void downloadCallBack(String id, DownloadTaskStatus status, int progress) {
     IsolateNameServer.lookupPortByName('downloader_send_port')?.send([id, status.value, progress]);
   }
@@ -149,29 +139,6 @@ class AudioPlayController extends GetxController {
           margin: const EdgeInsets.all(10),
         );
       }
-      // if (_tasks != null && _tasks!.isNotEmpty) {
-      //   final task = _tasks!.firstWhere((task) => task.taskId == taskId);
-      //   setState(() {
-      //     task
-      //       ..status = status
-      //       ..progress = progress;
-      //   });
-      // }
-    });
-  }
-
-  void initAudio() {
-    // audioController.getAudio(widget.songLink);
-    audioPlayer.setAudioSource(AudioSource.uri(Uri.parse(data)));
-    // audioDurationInDouble = audioPlayer.duration?.inSeconds.toDouble() ?? 0.0;
-
-    audioPlayer.durationStream.listen((event) {
-      audioDurationInDouble.value = audioPlayer.duration?.inSeconds.toDouble() ?? 0.0;
-      duration.value = audioPlayer.duration ?? const Duration();
-    });
-    audioPlayer.positionStream.listen((event) {
-      audioPositionInDouble.value = audioPlayer.position.inSeconds.toDouble();
-      position.value = audioPlayer.position;
     });
   }
 
@@ -179,8 +146,6 @@ class AudioPlayController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-
-    initAudio();
     _bindBackgroundIsolate();
     FlutterDownloader.registerCallback(downloadCallBack, step: 1);
   }
@@ -189,7 +154,6 @@ class AudioPlayController extends GetxController {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    audioPlayer.dispose();
     _unbindBackgroundIsolate();
   }
 }

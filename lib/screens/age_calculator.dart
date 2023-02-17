@@ -25,7 +25,6 @@ class _AgeCalculatorState extends State<AgeCalculator> {
   int year = 00;
   int months = 00;
 
-
   // int currentIndex = 0;
   //
   // InterstitialAd? interstitialAd;
@@ -85,9 +84,6 @@ class _AgeCalculatorState extends State<AgeCalculator> {
   //     ),
   //   );
   // }
-
-
-
 
   @override
   void initState() {
@@ -152,6 +148,16 @@ class _AgeCalculatorState extends State<AgeCalculator> {
                       initialDate: DateTime.now(),
                       firstDate: DateTime(1950),
                       lastDate: DateTime(DateTime.now().year + 1),
+                      builder: (context, child) {
+                        return Theme(
+                          data: ThemeData(
+                            colorScheme: const ColorScheme.light(
+                              primary: Color(0xFF7232FB),
+                            ),
+                          ),
+                          child: child ?? Container(),
+                        );
+                      },
                     );
                     if (selectedDate != null) {
                       formattedSelectedDate = DateFormat('dd-MM-yyyy').format(selectedDate!);
@@ -277,7 +283,12 @@ class _AgeCalculatorState extends State<AgeCalculator> {
                           minutes = durationDifference.inMinutes;
                           seconds = durationDifference.inSeconds;
                           year = days ~/ 365;
-                          months = days ~/ 30;
+                          months = (days - year * 365) ~/ 30;
+                          days = days - (year * 365) - (months * 30);
+                          // months = days ~/ 30;
+
+                          // months = months - (year * 12);
+
                           setState(() {});
                         }
                       },

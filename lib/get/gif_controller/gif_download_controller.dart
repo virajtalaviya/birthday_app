@@ -11,6 +11,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 class GIFDownloadController extends GetxController {
   RxBool isDownloading = false.obs;
+  RxInt downloadProgress = 0.obs;
   final ReceivePort _port = ReceivePort();
 
   void downloadFile(String url) async {
@@ -36,17 +37,6 @@ class GIFDownloadController extends GetxController {
       savedDir: appFolder.path,
       showNotification: false,
     );
-    // try {
-    //   Dio().downloadUri(
-    //     Uri.parse(url),
-    //     appDir?.path,
-    //     onReceiveProgress: (count, total) {
-    //       print("-----$count------------$total---------");
-    //     },
-    //   );
-    // } catch (e) {
-    //   print("--nnnnnnnnnnnnnnnnnnnnn    $e");
-    // }
   }
 
   void askingPermission(String url, BuildContext context) async {
@@ -132,11 +122,13 @@ class GIFDownloadController extends GetxController {
       // final taskId = (data as List<dynamic>)[0] as String;
       // final status = DownloadTaskStatus(data[1] as int);
       final progress = data[2] as int;
+      downloadProgress.value = progress;
       if (progress == 100) {
         isDownloading.value = false;
         Get.rawSnackbar(
-          message: "Image downloaded successfully",
+          message: "GIF downloaded successfully",
           margin: const EdgeInsets.all(10),
+          dismissDirection:DismissDirection.horizontal,
         );
       }
     });

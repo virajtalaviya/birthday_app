@@ -11,17 +11,28 @@ class BannerComponent extends StatefulWidget {
 
 class _BannerComponentState extends State<BannerComponent> {
   BannerAd? bannerAd;
+  int loadAttempt = 0;
 
   void loadBanner() {
+
     bannerAd = BannerAd(
       size: AdSize.banner,
       adUnitId: Constants.bannerAdId,
-      listener: const BannerAdListener(),
+      listener:  BannerAdListener(
+        onAdFailedToLoad: (ad, error) {
+          if(loadAttempt <=3){
+
+            loadBanner();
+          }
+
+        },
+      ),
       request: const AdRequest(),
     );
 
     if (bannerAd != null) {
       bannerAd?.load();
+      loadAttempt++;
     }
   }
 

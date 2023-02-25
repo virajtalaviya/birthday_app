@@ -5,18 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BirthdayImages extends StatelessWidget {
-  BirthdayImages({Key? key}) : super(key: key);
+  const BirthdayImages({Key? key}) : super(key: key);
 
-  final ImageController imageController = Get.put(ImageController());
+
 
   @override
   Widget build(BuildContext context) {
+    final ImageController imageController = Get.put(ImageController());
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
         backgroundColor: Colors.white,
         leading: InkWell(
           onTap: () {
+            imageController.dispose();
             Navigator.pop(context);
           },
           child: Center(

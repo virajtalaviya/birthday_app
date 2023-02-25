@@ -2,6 +2,7 @@ import 'package:birthday_app/components/banner_component.dart';
 import 'package:birthday_app/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:time_machine/time_machine.dart';
 
 class AgeCalculator extends StatefulWidget {
   const AgeCalculator({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class AgeCalculator extends StatefulWidget {
 }
 
 class _AgeCalculatorState extends State<AgeCalculator> {
-  DateTime currentTime = DateTime.now();
+  DateTime currentDate = DateTime.now();
   DateTime? selectedDate;
   String? formattedCurrentDate;
   String? formattedSelectedDate;
@@ -88,7 +89,7 @@ class _AgeCalculatorState extends State<AgeCalculator> {
   @override
   void initState() {
     super.initState();
-    formattedCurrentDate = DateFormat('dd-MM-yyyy').format(currentTime);
+    formattedCurrentDate = DateFormat('dd-MM-yyyy').format(currentDate);
     setState(() {});
     // loadInterstitialAd();
   }
@@ -277,16 +278,28 @@ class _AgeCalculatorState extends State<AgeCalculator> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (selectedDate != null) {
-                          durationDifference = currentTime.difference(selectedDate!);
-                          days = durationDifference.inDays;
+                          durationDifference = currentDate.difference(selectedDate!);
+
+                          LocalDate currentLocalDate = LocalDate.dateTime(currentDate);
+                          LocalDate selectedLocalDate = LocalDate.dateTime(selectedDate!);
+
+                          Period diff = currentLocalDate.periodSince(selectedLocalDate);
+
+                          year = diff.years;
+                          months = diff.months;
+                          days = diff.days;
+                          hours = diff.hours;
+                          minutes = diff.minutes;
+                          seconds = diff.seconds;
+
+                          // days = durationDifference.inDays;
                           hours = durationDifference.inHours;
                           minutes = durationDifference.inMinutes;
                           seconds = durationDifference.inSeconds;
-                          year = days ~/ 365;
-                          months = (days - year * 365) ~/ 30;
-                          days = days - (year * 365) - (months * 30);
+                          // year = days ~/ 365;
+                          // months = (days - year * 365) ~/ 30;
+                          // days = days - (year * 365) - (months * 30);
                           // months = days ~/ 30;
-
                           // months = months - (year * 12);
 
                           setState(() {});
@@ -424,6 +437,77 @@ class _AgeCalculatorState extends State<AgeCalculator> {
                   ],
                 ),
               ),
+              // const SizedBox(height: 10),
+              // Container(
+              //   width: MediaQuery.of(context).size.width,
+              //   height: 100,
+              //   decoration: BoxDecoration(
+              //     color: Colors.deepPurple.withOpacity(0.2),
+              //     // border: Border.all(color: Colors.teal, width: 2.5),
+              //     borderRadius: BorderRadius.circular(10),
+              //   ),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //     children: [
+              //       Column(
+              //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //         children: [
+              //           Text(
+              //             "Hours",
+              //             style: TextStyle(
+              //               fontSize: 14,
+              //               color: Colors.black,
+              //               fontWeight: FontWeight.bold,
+              //               fontFamily: Constants.fontFamilyRegular,
+              //             ),
+              //           ),
+              //           Text(
+              //             "$hours",
+              //             style: TextStyle(
+              //               fontSize: 14,
+              //               color: const Color(0xFF7232FB),
+              //               fontWeight: FontWeight.bold,
+              //               fontFamily: Constants.fontFamilyRegular,
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //       Column(
+              //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //         children: [
+              //           Text(
+              //             "Minutes",
+              //             style: TextStyle(
+              //               fontSize: 14,
+              //               color: Colors.black,
+              //               fontWeight: FontWeight.bold,
+              //               fontFamily: Constants.fontFamilyRegular,
+              //             ),
+              //           ),
+              //           Text(
+              //             "$minutes",
+              //             style: TextStyle(
+              //               fontSize: 14,
+              //               color: const Color(0xFF7232FB),
+              //               fontWeight: FontWeight.bold,
+              //               fontFamily: Constants.fontFamilyRegular,
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              const SizedBox(height: 10),
+              Text(
+                "Total Hours",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: const Color(0xFF7232FB),
+                  fontWeight: FontWeight.bold,
+                  fontFamily: Constants.fontFamilyRegular,
+                ),
+              ),
               const SizedBox(height: 10),
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -433,54 +517,69 @@ class _AgeCalculatorState extends State<AgeCalculator> {
                   // border: Border.all(color: Colors.teal, width: 2.5),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Row(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          "Hours",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: Constants.fontFamilyRegular,
-                          ),
-                        ),
-                        Text(
-                          "$hours",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: const Color(0xFF7232FB),
-                            fontWeight: FontWeight.bold,
-                            fontFamily: Constants.fontFamilyRegular,
-                          ),
-                        ),
-                      ],
+                    Text(
+                      "Hours",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: Constants.fontFamilyRegular,
+                      ),
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          "Minutes",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: Constants.fontFamilyRegular,
-                          ),
-                        ),
-                        Text(
-                          "$minutes",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: const Color(0xFF7232FB),
-                            fontWeight: FontWeight.bold,
-                            fontFamily: Constants.fontFamilyRegular,
-                          ),
-                        ),
-                      ],
+                    Text(
+                      "$hours",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: const Color(0xFF7232FB),
+                        fontWeight: FontWeight.bold,
+                        fontFamily: Constants.fontFamilyRegular,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "Total Minutes",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: const Color(0xFF7232FB),
+                  fontWeight: FontWeight.bold,
+                  fontFamily: Constants.fontFamilyRegular,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 100,
+                decoration: BoxDecoration(
+                  color: Colors.deepPurple.withOpacity(0.2),
+                  // border: Border.all(color: Colors.teal, width: 2.5),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      "Minutes",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: Constants.fontFamilyRegular,
+                      ),
+                    ),
+                    Text(
+                      "$minutes",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: const Color(0xFF7232FB),
+                        fontWeight: FontWeight.bold,
+                        fontFamily: Constants.fontFamilyRegular,
+                      ),
                     ),
                   ],
                 ),

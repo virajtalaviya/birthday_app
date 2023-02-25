@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:birthday_app/components/banner_component.dart';
 import 'package:birthday_app/constants.dart';
@@ -62,7 +61,25 @@ class GifDownload extends StatelessWidget {
             const SizedBox(height: 15),
             Obx(() {
               return gifDownloadController.isDownloading.value
-                  ? const CircularProgressIndicator(color: Color(0xFF7232FB))
+                  ? Container(
+                padding: const EdgeInsets.only(right: 20, left: 20),
+                height: 40,
+                width: 150,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF7232FB),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Center(
+                  child: Obx(
+                    () {
+                      return Text(
+                        "${gifDownloadController.downloadProgress.value} %",
+                        style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+                      );
+                    }
+                  ),
+                ),
+              )
                   : InkWell(
                       onTap: () {
                         gifDownloadController.askingPermission(gifLink, context);

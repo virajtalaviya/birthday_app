@@ -12,7 +12,7 @@ import 'package:permission_handler/permission_handler.dart';
 class ImageDownLoadController extends GetxController {
   RxBool isDownloading = false.obs;
 
-  RxInt progress = 0.obs;
+  RxInt downloadProgress = 0.obs;
   final ReceivePort _port = ReceivePort();
 
   void downloadFile(String url) async {
@@ -133,13 +133,18 @@ class ImageDownLoadController extends GetxController {
       // final taskId = (data as List<dynamic>)[0] as String;
       // final status = DownloadTaskStatus(data[1] as int);
       final progress = data[2] as int;
+      downloadProgress.value = progress;
+      print("---------(((${downloadProgress.value}");
       if (progress == 100) {
         isDownloading.value = false;
         Get.rawSnackbar(
           message: "Image downloaded successfully",
           margin: const EdgeInsets.all(10),
-
+          dismissDirection:DismissDirection.horizontal,
         );
+      }
+      if(progress == -1){
+        downloadProgress.value = 0;
       }
       // if (_tasks != null && _tasks!.isNotEmpty) {
       //   final task = _tasks!.firstWhere((task) => task.taskId == taskId);

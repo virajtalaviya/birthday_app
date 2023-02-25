@@ -12,6 +12,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 class AudioPlayController extends GetxController {
   final audioPlayer = AudioPlayer();
+  RxInt downloadProgress = 0.obs;
 
   var data = Get.arguments;
   RxBool isPlaying = false.obs;
@@ -109,16 +110,6 @@ class AudioPlayController extends GetxController {
         },
       );
 
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(
-      //     content: const Text(
-      //       "Please grant permission to access storage on your device from settings",
-      //     ),
-      //     behavior: SnackBarBehavior.floating,
-      //     margin: const EdgeInsets.all(10),
-      //     action: SnackBarAction(label: "Open settings", onPressed: (){}),
-      //   ),
-      // );
     }
   }
 
@@ -142,21 +133,17 @@ class AudioPlayController extends GetxController {
       // final taskId = (data as List<dynamic>)[0] as String;
       // final status = DownloadTaskStatus(data[1] as int);
       final progress = data[2] as int;
+      downloadProgress.value = progress;
       if (progress == 100) {
         isDownloading.value = false;
         Get.rawSnackbar(
-          message: "Image downloaded successfully",
+          message: "Audio downloaded successfully",
           margin: const EdgeInsets.all(10),
+          dismissDirection:DismissDirection.horizontal,
         );
       }
-      // if (_tasks != null && _tasks!.isNotEmpty) {
-      //   final task = _tasks!.firstWhere((task) => task.taskId == taskId);
-      //   setState(() {
-      //     task
-      //       ..status = status
-      //       ..progress = progress;
-      //   });
-      // }
+
+
     });
   }
 
@@ -172,6 +159,10 @@ class AudioPlayController extends GetxController {
     audioPlayer.positionStream.listen((event) {
       audioPositionInDouble.value = audioPlayer.position.inSeconds.toDouble();
       position.value = audioPlayer.position;
+      if(duration.value == position.value){
+        audioPlayer.pause();
+        isPlaying.value = false;
+      }
     });
   }
 

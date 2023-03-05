@@ -109,10 +109,10 @@ class AudioPlayController extends GetxController {
           );
         },
       );
-
     }
   }
 
+  @pragma('vm:entry-point')
   static void downloadCallBack(String id, DownloadTaskStatus status, int progress) {
     IsolateNameServer.lookupPortByName('downloader_send_port')?.send([id, status.value, progress]);
   }
@@ -139,11 +139,10 @@ class AudioPlayController extends GetxController {
         Get.rawSnackbar(
           message: "Audio downloaded successfully",
           margin: const EdgeInsets.all(10),
-          dismissDirection:DismissDirection.horizontal,
+          dismissDirection: DismissDirection.horizontal,
+          borderRadius: 10,
         );
       }
-
-
     });
   }
 
@@ -159,7 +158,7 @@ class AudioPlayController extends GetxController {
     audioPlayer.positionStream.listen((event) {
       audioPositionInDouble.value = audioPlayer.position.inSeconds.toDouble();
       position.value = audioPlayer.position;
-      if(duration.value == position.value){
+      if (duration.value == position.value) {
         audioPlayer.pause();
         isPlaying.value = false;
       }

@@ -113,6 +113,7 @@ class ImageDownLoadController extends GetxController {
     }
   }
 
+  @pragma('vm:entry-point')
   static void downloadCallBack(String id, DownloadTaskStatus status, int progress) {
     IsolateNameServer.lookupPortByName('downloader_send_port')?.send([id, status.value, progress]);
   }
@@ -134,16 +135,16 @@ class ImageDownLoadController extends GetxController {
       // final status = DownloadTaskStatus(data[1] as int);
       final progress = data[2] as int;
       downloadProgress.value = progress;
-      print("---------(((${downloadProgress.value}");
       if (progress == 100) {
         isDownloading.value = false;
         Get.rawSnackbar(
           message: "Image downloaded successfully",
           margin: const EdgeInsets.all(10),
-          dismissDirection:DismissDirection.horizontal,
+          dismissDirection: DismissDirection.horizontal,
+          borderRadius: 5,
         );
       }
-      if(progress == -1){
+      if (progress == -1) {
         downloadProgress.value = 0;
       }
       // if (_tasks != null && _tasks!.isNotEmpty) {

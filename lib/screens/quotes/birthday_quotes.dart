@@ -1,11 +1,6 @@
 import 'package:birthday_app/components/banner_component.dart';
 import 'package:birthday_app/constants.dart';
 import 'package:birthday_app/get/quotes_controller.dart';
-
-// import 'package:birthday_app/retrofit_service/model/quotes/quotes_model.dart';
-// import 'package:birthday_app/screens/quotes/copy_quotes.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -18,38 +13,15 @@ class BirthdayQuotes extends StatefulWidget {
 }
 
 class _BirthdayQuotesState extends State<BirthdayQuotes> {
-  QuotesController quotesController = Get.put(QuotesController());
-
-  // QuotesModel? quotesModel;
-  // bool connectedToInternet = true;
-  //
-  // getQuotes() {
-  //   Constants.apiClient.getQuotes()
-  //     ..then((value) {
-  //       setState(() {
-  //         quotesModel = value;
-  //       });
-  //     })
-  //     ..onError((DioError error, stackTrace) {
-  //       if (error.message.contains("SocketException")) {
-  //         setState(() {
-  //           quotesModel = QuotesModel(code: 1, data: [], message: "");
-  //           connectedToInternet = false;
-  //         });
-  //       }
-  //       return QuotesModel(message: "", code: 1, data: []);
-  //     });
-  // }
-  //
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   getQuotes();
-  // }
-
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    Get.delete<QuotesController>();
+  }
   @override
   Widget build(BuildContext context) {
+    QuotesController quotesController = Get.put(QuotesController());
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,

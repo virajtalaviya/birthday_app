@@ -8,8 +8,6 @@ import 'package:birthday_app/screens/songs/birthday_songs.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:maps_launcher/maps_launcher.dart';
-// import 'package:share_plus/share_plus.dart';
-// import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -28,13 +26,13 @@ class _HomePageState extends State<HomePage> {
         Navigator.push(context, MaterialPageRoute(builder: (context) => const AgeCalculator()));
         break;
       case 1:
-        Navigator.push(context, MaterialPageRoute(builder: (context) => BirthdaySongs()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const BirthdaySongs()));
         break;
       case 2:
         Navigator.push(context, MaterialPageRoute(builder: (context) => const BirthdayImages()));
         break;
       case 3:
-        Navigator.push(context, MaterialPageRoute(builder: (context) => BirthdayGIF()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const BirthdayGIF()));
         break;
       case 4:
         Navigator.push(context, MaterialPageRoute(builder: (context) => const BirthdayQuotes()));

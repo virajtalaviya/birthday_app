@@ -4,46 +4,26 @@ import 'package:birthday_app/get/audio/audio_get_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class BirthdaySongs extends StatelessWidget {
-  BirthdaySongs({Key? key}) : super(key: key);
-  final AudioController audioController = Get.put(AudioController());
+class BirthdaySongs extends StatefulWidget {
+ const BirthdaySongs({Key? key}) : super(key: key);
 
-//
-//   @override
-//   State<BirthdaySongs> createState() => _BirthdaySongsState();
-// }
-//
-// class _BirthdaySongsState extends State<BirthdaySongs> {
-  // SongsModel? songsModel;
-  // bool connectedToInternet = true;
-  //
-  // getSongs() {
-  //   Constants.apiClient.getSongs()
-  //     ..then((value) {
-  //       setState(() {
-  //         songsModel = value;
-  //       });
-  //     })
-  //     ..onError((DioError error, stackTrace) {
-  //       if (error.message.contains("SocketException")) {
-  //         setState(() {
-  //           songsModel = SongsModel(code: 1, data: [], message: "");
-  //           connectedToInternet = false;
-  //         });
-  //       }
-  //       return SongsModel(code: 0, message: "", data: []);
-  //     });
-  // }
-  //
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   getSongs();
-  // }
+  @override
+  State<BirthdaySongs> createState() => _BirthdaySongsState();
+}
+
+class _BirthdaySongsState extends State<BirthdaySongs> {
+
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    Get.delete<AudioController>();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final AudioController audioController = Get.put(AudioController());
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,

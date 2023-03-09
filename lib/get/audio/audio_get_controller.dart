@@ -27,6 +27,8 @@ class AudioController extends GetxController {
     );
   }
 
+
+
   void showInterstitial() {
     if (interstitialAd != null) {
       if (Constants.adLoadTimes % 3 == 0) {
@@ -79,6 +81,7 @@ class AudioController extends GetxController {
       ),
     );
   }
+
 
   Future getListOfAudio() async {
     try {

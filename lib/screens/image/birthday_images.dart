@@ -4,11 +4,21 @@ import 'package:birthday_app/get/image/image_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class BirthdayImages extends StatelessWidget {
+class BirthdayImages extends StatefulWidget {
   const BirthdayImages({Key? key}) : super(key: key);
 
+  @override
+  State<BirthdayImages> createState() => _BirthdayImagesState();
+}
 
+class _BirthdayImagesState extends State<BirthdayImages> {
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    Get.delete<ImageController>();
+  }
   @override
   Widget build(BuildContext context) {
     final ImageController imageController = Get.put(ImageController());
@@ -18,7 +28,6 @@ class BirthdayImages extends StatelessWidget {
         backgroundColor: Colors.white,
         leading: InkWell(
           onTap: () {
-            imageController.dispose();
             Navigator.pop(context);
           },
           child: Center(

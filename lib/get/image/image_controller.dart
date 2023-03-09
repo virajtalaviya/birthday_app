@@ -76,6 +76,7 @@ class ImageController extends GetxController {
     );
   }
 
+
   Future getListOfURL() async {
     try {
       final result = await InternetAddress.lookup('example.com');

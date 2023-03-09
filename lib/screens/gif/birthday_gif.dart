@@ -4,13 +4,24 @@ import 'package:birthday_app/get/gif_controller/gif_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class BirthdayGIF extends StatelessWidget {
-  BirthdayGIF({Key? key}) : super(key: key);
-
-  final GIFController gifController = Get.put(GIFController());
+class BirthdayGIF extends StatefulWidget {
+  const BirthdayGIF({Key? key}) : super(key: key);
 
   @override
+  State<BirthdayGIF> createState() => _BirthdayGIFState();
+}
+
+class _BirthdayGIFState extends State<BirthdayGIF> {
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    Get.delete<GIFController>();
+  }
+  @override
   Widget build(BuildContext context) {
+    final GIFController gifController = Get.put(GIFController());
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,

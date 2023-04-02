@@ -14,17 +14,14 @@ class _BannerComponentState extends State<BannerComponent> {
   int loadAttempt = 0;
 
   void loadBanner() {
-
     bannerAd = BannerAd(
       size: AdSize.banner,
       adUnitId: Constants.bannerAdId,
-      listener:  BannerAdListener(
+      listener: BannerAdListener(
         onAdFailedToLoad: (ad, error) {
-          if(loadAttempt <=3){
-
+          if (loadAttempt <= 3) {
             loadBanner();
           }
-
         },
       ),
       request: const AdRequest(),
@@ -40,13 +37,15 @@ class _BannerComponentState extends State<BannerComponent> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    loadBanner();
+    if (Constants.bannerAdId != "") {
+      loadBanner();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 50,
+      height: Constants.bannerAdId == "" ? 0 : 50,
       child: bannerAd != null ? AdWidget(ad: bannerAd!) : const SizedBox(),
     );
   }

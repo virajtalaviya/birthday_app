@@ -122,6 +122,8 @@ class AudioController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     getListOfAudio();
-    loadInterstitialAd();
+    if(Constants.interstitialAdId != ""){
+      loadInterstitialAd();
+    }
   }
 }

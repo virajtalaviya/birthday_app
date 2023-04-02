@@ -111,6 +111,8 @@ class ImageController extends GetxController {
     // TODO: implement onInit
     super.onInit();
     getListOfURL();
-    loadInterstitialAd();
+    if(Constants.interstitialAdId != ""){
+      loadInterstitialAd();
+    }
   }
 }

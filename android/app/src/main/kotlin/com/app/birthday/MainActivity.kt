@@ -1,4 +1,4 @@
-package com.app.birthday
+package com.app.birthday_master
 
 import io.flutter.embedding.android.FlutterActivity
 

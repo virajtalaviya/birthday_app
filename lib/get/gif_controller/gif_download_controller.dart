@@ -132,6 +132,9 @@ class GIFDownloadController extends GetxController {
           borderRadius: 10,
         );
       }
+      if (progress < 0) {
+        downloadProgress.value = 0;
+      }
     });
   }
 

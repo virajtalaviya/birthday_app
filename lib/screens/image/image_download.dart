@@ -9,57 +9,6 @@ class ImageDownload extends StatelessWidget {
   const ImageDownload({Key? key, required this.imageLink}) : super(key: key);
   final String imageLink;
 
-//   @override
-//   State<ImageDownload> createState() => _ImageDownloadState();
-// }
-//
-// class _ImageDownloadState extends State<ImageDownload> {
-  // download(context) async {
-  //   setState(() {
-  //     isDownloading = true;
-  //   });
-  //
-  //   final status = await Permission.storage.request();
-  //   if (status.isGranted) {
-  //     String _url = widget.imageLink;
-  //     final response = await http.get(Uri.parse(_url));
-  //     // Get the image name
-  //     String imageName = widget.imageLink.split("/").last;
-  //     // final imageName = path.basename(_url);
-  //     // Get the document directory path
-  //     final appDir = await getExternalStorageDirectory();
-  //
-  //     final appFolder = Directory('${appDir?.path.split("/Android").first}/BirthDay_Master/');
-  //     if (!await appFolder.exists()) {
-  //       appFolder.create();
-  //     }
-  //     // This is the saved image path
-  //     // You can use it to display the saved image later.
-  //     final localPath = path.join(appFolder.path, imageName);
-  //     // Downloading
-  //     final imageFile = File(localPath);
-  //     await imageFile.writeAsBytes(response.bodyBytes).then((value) {
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         SnackBar(
-  //           content: Text(
-  //             "Image downloaded",
-  //             style: TextStyle(fontFamily: Constants.fontFamilyRegular),
-  //           ),
-  //           duration: const Duration(seconds: 2),
-  //           behavior: SnackBarBehavior.floating,
-  //           margin: const EdgeInsets.all(10),
-  //         ),
-  //       );
-  //     });
-  //     // print('$_url ....songs..Downloaded!...$imageFile');
-  //   }
-  //   setState(() {
-  //     isDownloading = false;
-  //   });
-  // }
-
-  // bool isDownloading = false;
-
   @override
   Widget build(BuildContext context) {
     final ImageDownLoadController imageDownLoadController = Get.put(ImageDownLoadController());

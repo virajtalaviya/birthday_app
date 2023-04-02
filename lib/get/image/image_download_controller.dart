@@ -25,9 +25,9 @@ class ImageDownLoadController extends GetxController {
     }
     String link = url;
     link = link.split("/")[7];
-    link = link.replaceAll("%20", " ");
-    link = link.replaceAll("%2C", " ");
-    link = link.replaceAll("%2F", " ");
+    link = link.replaceAll("%20", "");
+    link = link.replaceAll("%2C", "");
+    link = link.replaceAll("%2F", "");
     link = link.replaceAll("audio ", "");
     link = link.substring(0, link.indexOf('?'));
     link = link.replaceAll("%40", "@");
@@ -144,7 +144,7 @@ class ImageDownLoadController extends GetxController {
           borderRadius: 5,
         );
       }
-      if (progress == -1) {
+      if (progress < 0) {
         downloadProgress.value = 0;
       }
       // if (_tasks != null && _tasks!.isNotEmpty) {

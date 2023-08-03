@@ -141,7 +141,7 @@ class ImageDownLoadController extends GetxController {
           message: "Image downloaded successfully",
           margin: const EdgeInsets.all(10),
           dismissDirection: DismissDirection.horizontal,
-          borderRadius: 5,
+          borderRadius: 10,
         );
       }
       if (progress < 0) {

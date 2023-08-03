@@ -143,8 +143,17 @@ class PlaySong extends StatelessWidget {
                   // },
                   // child: audioPlayer.playing ? const Icon(Icons.pause) : const Icon(Icons.play_arrow),
                 },
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
                 child: Obx(() {
-                  return audioController.isPlaying.value ? const Icon(Icons.pause) : const Icon(Icons.play_arrow);
+                  return audioController.isPlaying.value
+                      ? const Icon(
+                          Icons.pause,
+                          color: Colors.white,
+                        )
+                      : const Icon(
+                          Icons.play_arrow,
+                          color: Colors.white,
+                        );
                 }),
                 backgroundColor: const Color(0xFF7232FB),
               ),

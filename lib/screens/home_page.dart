@@ -8,6 +8,8 @@ import 'package:birthday_app/screens/songs/birthday_songs.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -88,7 +90,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (Constants.interstitialAdId != "") {
       loadInterstitialAd();
@@ -99,70 +100,73 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      // drawer: Drawer(
-      //   child: SingleChildScrollView(
-      //     child: Column(
-      //       children: [
-      //         const SizedBox(height: 50),
-      //         Image.asset(
-      //           "assets/images/splash_logo.png",
-      //           height: 120,
-      //         ),
-      //         const SizedBox(height: 15),
-      //         Text(
-      //           "Birthday Master Pro",
-      //           style: TextStyle(
-      //             color: const Color(0xFF7232FB),
-      //             fontFamily: Constants.fontFamilyMedium,
-      //             fontSize: 20,
-      //           ),
-      //         ),
-      //         ListView.builder(
-      //           physics: const NeverScrollableScrollPhysics(),
-      //           shrinkWrap: true,
-      //           itemCount: Constants.drawerContent.length,
-      //           itemBuilder: (context, index) {
-      //             return ListTile(
-      //               onTap: () {
-      //                 switch (index) {
-      //                   case 0:
-      //                     Share.share("Hello");
-      //                     break;
-      //                   case 1:
-      //                     launchUrl(
-      //                       Uri.parse(
-      //                         "https://play.google.com/store/apps/details?id=com.instagram.android",
-      //                       ),
-      //                       mode: LaunchMode.externalNonBrowserApplication,
-      //                     );
-      //                     break;
-      //                   case 2:
-      //                     break;
-      //                 }
-      //               },
-      //               leading: Image.asset(
-      //                 Constants.drawerContent[index].image,
-      //                 height: 25,
-      //               ),
-      //               title: Text(Constants.drawerContent[index].name),
-      //             );
-      //           },
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      // ),
+      drawer: Drawer(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 50),
+              Image.asset(
+                "assets/images/splash_logo.png",
+                height: 120,
+              ),
+              const SizedBox(height: 15),
+              Text(
+                "Birthday Master Pro",
+                style: TextStyle(
+                  color: const Color(0xFF7232FB),
+                  fontFamily: Constants.fontFamilyMedium,
+                  fontSize: 20,
+                ),
+              ),
+              ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: Constants.drawerContent.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    onTap: () {
+                      _scaffoldKey.currentState!.closeDrawer();
+                      switch (index) {
+                        case 0:
+                          Share.share("https://play.google.com/store/apps/details?id=com.app.birthday_master");
+                          break;
+                        case 1:
+                          launchUrl(
+                            Uri.parse("https://play.google.com/store/apps/details?id=com.app.birthday_master"),
+                            mode: LaunchMode.externalNonBrowserApplication,
+                          );
+                          break;
+                        case 2:
+                          launchUrl(
+                            Uri.parse("https://github.com/virajtalaviya/birthday_master_privacy_policy"),
+                            mode: LaunchMode.externalNonBrowserApplication,
+                          );
+                          break;
+                      }
+                    },
+                    leading: Image.asset(
+                      Constants.drawerContent[index].image,
+                      height: 25,
+                    ),
+                    title: Text(Constants.drawerContent[index].name),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
       appBar: AppBar(
-        // leading: IconButton(
-        //   onPressed: () {
-        //     // Scaffold.of(context).openDrawer();
-        //     _scaffoldKey.currentState!.openDrawer();
-        //   },
-        //   icon: const Icon(
-        //     Icons.menu,
-        //     color: Colors.black,
-        //   ),
-        // ),
+        leading: IconButton(
+          onPressed: () {
+            // Scaffold.of(context).openDrawer();
+            _scaffoldKey.currentState!.openDrawer();
+          },
+          icon: const Icon(
+            Icons.menu,
+            color: Colors.black,
+          ),
+        ),
         title: Text(
           "Birthday Master Pro",
           style: TextStyle(
@@ -198,6 +202,7 @@ class _HomePageState extends State<HomePage> {
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () {
+
                     currentTappedIndex = index;
                     if (interstitialAd != null) {
                       if (Constants.adLoadTimes % 3 == 0) {

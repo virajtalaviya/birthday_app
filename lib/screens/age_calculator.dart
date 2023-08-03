@@ -86,6 +86,31 @@ class _AgeCalculatorState extends State<AgeCalculator> {
   //   );
   // }
 
+
+  void calculateAge() async {
+    selectedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1950),
+      lastDate: DateTime(DateTime.now().year + 1),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData(
+            colorScheme: const ColorScheme.light(
+              primary: Color(0xFF7232FB),
+            ),
+          ),
+          child: child ?? Container(),
+        );
+      },
+    );
+    if (selectedDate != null) {
+      formattedSelectedDate = DateFormat('dd-MM-yyyy').format(selectedDate!);
+      selectDateController.text = formattedSelectedDate!.replaceAll("-", "/");
+      setState(() {});
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -143,28 +168,8 @@ class _AgeCalculatorState extends State<AgeCalculator> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: TextField(
-                  onTap: () async {
-                    selectedDate = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1950),
-                      lastDate: DateTime(DateTime.now().year + 1),
-                      builder: (context, child) {
-                        return Theme(
-                          data: ThemeData(
-                            colorScheme: const ColorScheme.light(
-                              primary: Color(0xFF7232FB),
-                            ),
-                          ),
-                          child: child ?? Container(),
-                        );
-                      },
-                    );
-                    if (selectedDate != null) {
-                      formattedSelectedDate = DateFormat('dd-MM-yyyy').format(selectedDate!);
-                      selectDateController.text = formattedSelectedDate!.replaceAll("-", "/");
-                      setState(() {});
-                    }
+                  onTap: () {
+                    calculateAge();
                   },
                   controller: selectDateController,
                   readOnly: true,
@@ -189,7 +194,9 @@ class _AgeCalculatorState extends State<AgeCalculator> {
                     ),
                     suffixIconColor: const Color(0xFF7232FB),
                     suffixIcon: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        calculateAge();
+                      },
                       // onPressed: () async {
                       //   selectedDate = await showDatePicker(
                       //     context: context,
@@ -213,9 +220,7 @@ class _AgeCalculatorState extends State<AgeCalculator> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 10),
-
               /// date of birth
               Text(
                 "Today's Date",

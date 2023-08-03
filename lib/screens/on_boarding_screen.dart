@@ -23,7 +23,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     callPreferences();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,13 +56,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 );
               },
               style: ButtonStyle(
-                  shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25))),
-                  backgroundColor:
-                      MaterialStateProperty.all(const Color(0xFF7232FB)),
+                  shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(25))),
+                  backgroundColor: MaterialStateProperty.all(const Color(0xFF7232FB)),
                   fixedSize: MaterialStateProperty.all(const Size(125, 40))),
               child: const Text(
                 "START",
+                style: TextStyle(color: Colors.white),
               ),
             ),
           ],

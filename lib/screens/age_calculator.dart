@@ -317,6 +317,7 @@ class _AgeCalculatorState extends State<AgeCalculator> {
                           fixedSize: MaterialStateProperty.all(const Size(125, 45))),
                       child: const Text(
                         "Calculate",
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
@@ -344,6 +345,7 @@ class _AgeCalculatorState extends State<AgeCalculator> {
                           fixedSize: MaterialStateProperty.all(const Size(125, 45))),
                       child: const Text(
                         "Clear",
+                        style: TextStyle(color: Colors.white),
                       ),
                     ),
                   ),

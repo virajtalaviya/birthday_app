@@ -10,27 +10,32 @@ class BannerComponent extends StatefulWidget {
 }
 
 class _BannerComponentState extends State<BannerComponent> {
-  BannerAd? bannerAd;
   int loadAttempt = 0;
 
-  void loadBanner() {
-    bannerAd = BannerAd(
+  late BannerAd _bannerAd;
+  bool adLoaded = false;
+
+  void loadBannerAd() {
+    _bannerAd = BannerAd(
       size: AdSize.banner,
       adUnitId: Constants.bannerAdId,
       listener: BannerAdListener(
         onAdFailedToLoad: (ad, error) {
-          if (loadAttempt <= 3) {
-            loadBanner();
+          if (loadAttempt < 3) {
+            loadBannerAd();
           }
+        },
+        onAdLoaded: (ad) {
+          setState(() {
+            adLoaded = true;
+          });
         },
       ),
       request: const AdRequest(),
     );
 
-    if (bannerAd != null) {
-      bannerAd?.load();
-      loadAttempt++;
-    }
+    _bannerAd.load();
+    loadAttempt++;
   }
 
   @override
@@ -38,15 +43,15 @@ class _BannerComponentState extends State<BannerComponent> {
     // TODO: implement initState
     super.initState();
     if (Constants.bannerAdId != "") {
-      loadBanner();
+      loadBannerAd();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: Constants.bannerAdId == "" ? 0 : 50,
-      child: bannerAd != null ? AdWidget(ad: bannerAd!) : const SizedBox(),
+      height: Constants.bannerAdId != "" && adLoaded ? 50 : 0,
+      child: adLoaded ? AdWidget(ad: _bannerAd) : const SizedBox(),
     );
   }
 }

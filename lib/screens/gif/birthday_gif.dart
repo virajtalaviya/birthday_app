@@ -102,23 +102,6 @@ class _BirthdayGIFState extends State<BirthdayGIF> {
                                     height: 25,
                                   ),
                                 )
-                                // Row(
-                                //   mainAxisAlignment: MainAxisAlignment.center,
-                                //   children: [
-                                //     Image.asset(
-                                //       "assets/images/ic_download.png",
-                                //       height: 25,
-                                //     ),
-                                //     const SizedBox(width: 10),
-                                //     Text(
-                                //       "${random.nextInt(999)}K",
-                                //       style: const TextStyle(
-                                //         color: Colors.white,
-                                //         fontSize: 18,
-                                //       ),
-                                //     ),
-                                //   ],
-                                // ),
                                 ),
                           ],
                         ),

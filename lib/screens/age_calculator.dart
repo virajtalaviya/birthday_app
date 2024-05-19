@@ -86,7 +86,6 @@ class _AgeCalculatorState extends State<AgeCalculator> {
   //   );
   // }
 
-
   void calculateAge() async {
     selectedDate = await showDatePicker(
       context: context,
@@ -221,6 +220,7 @@ class _AgeCalculatorState extends State<AgeCalculator> {
                 ),
               ),
               const SizedBox(height: 10),
+
               /// date of birth
               Text(
                 "Today's Date",
@@ -297,15 +297,9 @@ class _AgeCalculatorState extends State<AgeCalculator> {
                           minutes = diff.minutes;
                           seconds = diff.seconds;
 
-                          // days = durationDifference.inDays;
                           hours = durationDifference.inHours;
                           minutes = durationDifference.inMinutes;
                           seconds = durationDifference.inSeconds;
-                          // year = days ~/ 365;
-                          // months = (days - year * 365) ~/ 30;
-                          // days = days - (year * 365) - (months * 30);
-                          // months = days ~/ 30;
-                          // months = months - (year * 12);
 
                           setState(() {});
                         }
@@ -444,67 +438,6 @@ class _AgeCalculatorState extends State<AgeCalculator> {
                   ],
                 ),
               ),
-              // const SizedBox(height: 10),
-              // Container(
-              //   width: MediaQuery.of(context).size.width,
-              //   height: 100,
-              //   decoration: BoxDecoration(
-              //     color: Colors.deepPurple.withOpacity(0.2),
-              //     // border: Border.all(color: Colors.teal, width: 2.5),
-              //     borderRadius: BorderRadius.circular(10),
-              //   ),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //     children: [
-              //       Column(
-              //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //         children: [
-              //           Text(
-              //             "Hours",
-              //             style: TextStyle(
-              //               fontSize: 14,
-              //               color: Colors.black,
-              //               fontWeight: FontWeight.bold,
-              //               fontFamily: Constants.fontFamilyRegular,
-              //             ),
-              //           ),
-              //           Text(
-              //             "$hours",
-              //             style: TextStyle(
-              //               fontSize: 14,
-              //               color: const Color(0xFF7232FB),
-              //               fontWeight: FontWeight.bold,
-              //               fontFamily: Constants.fontFamilyRegular,
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //       Column(
-              //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //         children: [
-              //           Text(
-              //             "Minutes",
-              //             style: TextStyle(
-              //               fontSize: 14,
-              //               color: Colors.black,
-              //               fontWeight: FontWeight.bold,
-              //               fontFamily: Constants.fontFamilyRegular,
-              //             ),
-              //           ),
-              //           Text(
-              //             "$minutes",
-              //             style: TextStyle(
-              //               fontSize: 14,
-              //               color: const Color(0xFF7232FB),
-              //               fontWeight: FontWeight.bold,
-              //               fontFamily: Constants.fontFamilyRegular,
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ],
-              //   ),
-              // ),
               const SizedBox(height: 10),
               Text(
                 "Total Hours",
@@ -521,7 +454,6 @@ class _AgeCalculatorState extends State<AgeCalculator> {
                 height: 100,
                 decoration: BoxDecoration(
                   color: Colors.deepPurple.withOpacity(0.2),
-                  // border: Border.all(color: Colors.teal, width: 2.5),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
@@ -564,7 +496,6 @@ class _AgeCalculatorState extends State<AgeCalculator> {
                 height: 100,
                 decoration: BoxDecoration(
                   color: Colors.deepPurple.withOpacity(0.2),
-                  // border: Border.all(color: Colors.teal, width: 2.5),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
@@ -607,7 +538,6 @@ class _AgeCalculatorState extends State<AgeCalculator> {
                 height: 100,
                 decoration: BoxDecoration(
                   color: Colors.deepPurple.withOpacity(0.2),
-                  // border: Border.all(color: Colors.teal, width: 2.5),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(

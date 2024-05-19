@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 
 class Constants {
   static int adLoadTimes = 0;
-  static String interstitialAdId = ""; // = "ca-app-pub-3940256099942544/1033173712";
-  static String bannerAdId = ""; // = "ca-app-pub-3940256099942544/6300978111";
+
+  /// Test ids
+  // static String interstitialAdId = "ca-app-pub-3940256099942544/1033173712";
+  // static String bannerAdId = "ca-app-pub-3940256099942544/6300978111";
+
+  /// Original Ids
+  static String interstitialAdId = "ca-app-pub-4980262775196753/3540635002";
+  static String bannerAdId = "ca-app-pub-4980262775196753/4818057653";
   static String fontFamilyMedium = "Heebo-Medium";
   static String fontFamilyRegular = "Heebo-Regular";
   static List<GridContent> content = [
@@ -48,10 +54,6 @@ class Constants {
       image: "assets/drawer/ic_rateus.png",
       name: "Rate us",
     ),
-    // DrawerContent(
-    //   image: "assets/drawer/ic_moreapps.png",
-    //   name: "More Apps",
-    // ),
     DrawerContent(
       image: "assets/drawer/ic_privacypolicy.png",
       name: "Privacy Policy",

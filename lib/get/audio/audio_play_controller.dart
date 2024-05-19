@@ -14,6 +14,8 @@ class AudioPlayController extends GetxController {
   final audioPlayer = AudioPlayer();
   RxInt downloadProgress = 0.obs;
 
+  RxBool showAd = true.obs;
+
   var data = Get.arguments;
   RxBool isPlaying = false.obs;
 
@@ -62,11 +64,17 @@ class AudioPlayController extends GetxController {
   }
 
   void askingPermission(String url, BuildContext context) async {
+    BuildContext secondContext = context;
+    if (await Permission.storage.isGranted == false) {
+      showAd.value = false;
+    }
     final status = await Permission.storage.request();
     if (status.isGranted) {
       downloadFile(url);
+      showAd.value = true;
     } else {
-      showDialog(
+      showAd.value = false;
+      await showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
@@ -96,7 +104,8 @@ class AudioPlayController extends GetxController {
               ),
               TextButton(
                 onPressed: () {
-                  askingPermission(url, context);
+                  Navigator.pop(context);
+                  askingPermission(url, secondContext);
                 },
                 child: Text(
                   "Yes",
@@ -109,6 +118,7 @@ class AudioPlayController extends GetxController {
           );
         },
       );
+      showAd.value = true;
     }
   }
 
@@ -130,8 +140,6 @@ class AudioPlayController extends GetxController {
     }
 
     _port.listen((dynamic data) {
-      // final taskId = (data as List<dynamic>)[0] as String;
-      // final status = DownloadTaskStatus(data[1] as int);
       final progress = data[2] as int;
       downloadProgress.value = progress;
       if (progress == 100) {
@@ -150,9 +158,7 @@ class AudioPlayController extends GetxController {
   }
 
   void initAudio() {
-    // audioController.getAudio(widget.songLink);
     audioPlayer.setAudioSource(AudioSource.uri(Uri.parse(data)));
-    // audioDurationInDouble = audioPlayer.duration?.inSeconds.toDouble() ?? 0.0;
 
     audioPlayer.durationStream.listen((event) {
       audioDurationInDouble.value = audioPlayer.duration?.inSeconds.toDouble() ?? 0.0;

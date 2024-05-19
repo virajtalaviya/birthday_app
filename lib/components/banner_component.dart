@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:birthday_app/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -49,6 +51,7 @@ class _BannerComponentState extends State<BannerComponent> {
 
   @override
   Widget build(BuildContext context) {
+    log("---$adLoaded");
     return SizedBox(
       height: Constants.bannerAdId != "" && adLoaded ? 50 : 0,
       child: adLoaded ? AdWidget(ad: _bannerAd) : const SizedBox(),

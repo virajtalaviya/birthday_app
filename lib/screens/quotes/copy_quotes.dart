@@ -52,10 +52,6 @@ class _CopyQuoteState extends State<CopyQuote> {
               decoration: BoxDecoration(
                 color: Colors.deepPurpleAccent.withOpacity(0.2),
                 borderRadius: BorderRadius.circular(10),
-                // image: DecorationImage(
-                //   image: NetworkImage(widget.gifLink),
-                //   fit: BoxFit.fill,
-                // ),
               ),
               child: Center(
                 child: Text(
@@ -68,38 +64,7 @@ class _CopyQuoteState extends State<CopyQuote> {
                 ),
               ),
             ),
-            const SizedBox(height: 15),
-            // InkWell(
-            //   onTap: () {},
-            //   child: Container(
-            //     padding: const EdgeInsets.only(right: 20, left: 20),
-            //     height: 40,
-            //     // width: 150,
-            //     decoration: BoxDecoration(
-            //       color: const Color(0xFF7232FB),
-            //       borderRadius: BorderRadius.circular(30),
-            //     ),
-            //     child: Row(
-            //       mainAxisSize: MainAxisSize.min,
-            //       mainAxisAlignment: MainAxisAlignment.center,
-            //       children: [
-            //         Image.asset(
-            //           "assets/images/ic_download.png",
-            //           height: 25,
-            //         ),
-            //         const SizedBox(width: 10),
-            //         const Text(
-            //           "Download",
-            //           style: TextStyle(
-            //             color: Colors.white,
-            //             fontSize: 18,
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 30),
             InkWell(
               onTap: () async {
                 await Clipboard.setData(ClipboardData(text: widget.quotes))

@@ -79,13 +79,6 @@ class PlaySong extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              // CustomSlider(
-              //   audioPlayer: audioPlayer,
-              //   duration: duration,
-              //   position: position,
-              //   durationInDouble: audioDurationInDouble,
-              //   positionInDouble: audioPositionInDouble,
-              // ),
               Obx(() {
                 return Slider(
                   value: audioController.audioPositionInDouble.value,
@@ -134,14 +127,6 @@ class PlaySong extends StatelessWidget {
                     audioController.audioPlayer.play();
                     audioController.isPlaying.value = true;
                   }
-                  //   if (audioPlayer.playing) {
-                  //     audioPlayer.pause();
-                  //   } else {
-                  //     audioPlayer.play();
-                  //   }
-                  //   setState(() {});
-                  // },
-                  // child: audioPlayer.playing ? const Icon(Icons.pause) : const Icon(Icons.play_arrow),
                 },
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
                 child: Obx(() {
@@ -158,7 +143,6 @@ class PlaySong extends StatelessWidget {
                 backgroundColor: const Color(0xFF7232FB),
               ),
               const SizedBox(height: 20),
-
               Obx(() {
                 return audioController.isDownloading.value
                     ? Container(
@@ -211,7 +195,6 @@ class PlaySong extends StatelessWidget {
                         ),
                       );
               }),
-
               const SizedBox(height: 20),
               InkWell(
                 onTap: () {
@@ -248,7 +231,12 @@ class PlaySong extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: const BannerComponent(),
+        bottomNavigationBar: Obx(() {
+          if (audioController.showAd.value) {
+            return const BannerComponent();
+          }
+          return const SizedBox();
+        }),
       ),
     );
   }

@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:birthday_app/constants.dart';
 import 'package:birthday_app/screens/home_page.dart';
 import 'package:birthday_app/screens/on_boarding_screen.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,7 +17,8 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   SharedPreferences? preferences;
   bool showOnBoarding = true;
-  final remoteConfig = FirebaseRemoteConfig.instance;
+
+  // final remoteConfig = FirebaseRemoteConfig.instance;
 
   callPreferences() async {
     preferences = await SharedPreferences.getInstance();
@@ -110,7 +110,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       child: Container(
                         height: 40,
                         decoration: BoxDecoration(
-                          color: Colors.grey.shade300, //const Color(0xFF7232FB),
+                          color: Colors.grey.shade300,
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Center(
@@ -139,7 +139,8 @@ class _SplashScreenState extends State<SplashScreen> {
     try {
       final result = await InternetAddress.lookup('example.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        getRemoteConfig();
+        // getRemoteConfig();
+        callPreferences();
       } else {
         showInternetDialog();
       }
@@ -148,22 +149,22 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
-  getRemoteConfig() async {
-    try {
-      await remoteConfig.setConfigSettings(
-        RemoteConfigSettings(
-          fetchTimeout: const Duration(seconds: 10),
-          minimumFetchInterval: const Duration(seconds: 30),
-        ),
-      );
-      await remoteConfig.fetchAndActivate();
-      Constants.interstitialAdId = remoteConfig.getString("interstitial_ad_id");
-      Constants.bannerAdId = remoteConfig.getString("banner_ad_id");
-      callPreferences();
-    } catch (_) {
-      callPreferences();
-    }
-  }
+  // getRemoteConfig() async {
+  //   try {
+  //     await remoteConfig.setConfigSettings(
+  //       RemoteConfigSettings(
+  //         fetchTimeout: const Duration(seconds: 10),
+  //         minimumFetchInterval: const Duration(seconds: 30),
+  //       ),
+  //     );
+  //     await remoteConfig.fetchAndActivate();
+  //     Constants.interstitialAdId = remoteConfig.getString("interstitial_ad_id");
+  //     Constants.bannerAdId = remoteConfig.getString("banner_ad_id");
+  //     callPreferences();
+  //   } catch (_) {
+  //     callPreferences();
+  //   }
+  // }
 
   @override
   void initState() {
@@ -177,17 +178,6 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Center(
         child: Image.asset("assets/images/splash_logo.png", height: 200),
       ),
-      // body: Column(
-      //    mainAxisAlignment: MainAxisAlignment.center,
-      //    children: [
-      //      Center(
-      //        child: Lottie.asset(
-      //          "assets/birthday-cake-celebration.json",
-      //          height: MediaQuery.of(context).size.height * 0.4,
-      //        ),
-      //      ),
-      //    ],
-      //  ),
     );
   }
 }

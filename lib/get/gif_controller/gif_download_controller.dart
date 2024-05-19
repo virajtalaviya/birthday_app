@@ -13,6 +13,7 @@ class GIFDownloadController extends GetxController {
   RxBool isDownloading = false.obs;
   RxInt downloadProgress = 0.obs;
   final ReceivePort _port = ReceivePort();
+  RxBool showAd = true.obs;
 
   void downloadFile(String url) async {
     final appDir = await getExternalStorageDirectory();
@@ -40,11 +41,16 @@ class GIFDownloadController extends GetxController {
   }
 
   void askingPermission(String url, BuildContext context) async {
+    BuildContext secondContext = context;
+    if (await Permission.storage.isGranted == false) {
+      showAd.value = false;
+    }
     final status = await Permission.storage.request();
     if (status.isGranted) {
       downloadFile(url);
+      showAd.value = true;
     } else {
-      showDialog(
+      await showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
@@ -74,7 +80,8 @@ class GIFDownloadController extends GetxController {
               ),
               TextButton(
                 onPressed: () {
-                  askingPermission(url, context);
+                  Navigator.pop(context);
+                  askingPermission(url, secondContext);
                 },
                 child: Text(
                   "Yes",
@@ -87,17 +94,7 @@ class GIFDownloadController extends GetxController {
           );
         },
       );
-
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(
-      //     content: const Text(
-      //       "Please grant permission to access storage on your device from settings",
-      //     ),
-      //     behavior: SnackBarBehavior.floating,
-      //     margin: const EdgeInsets.all(10),
-      //     action: SnackBarAction(label: "Open settings", onPressed: (){}),
-      //   ),
-      // );
+      showAd.value = true;
     }
   }
 
@@ -119,8 +116,6 @@ class GIFDownloadController extends GetxController {
     }
 
     _port.listen((dynamic data) {
-      // final taskId = (data as List<dynamic>)[0] as String;
-      // final status = DownloadTaskStatus(data[1] as int);
       final progress = data[2] as int;
       downloadProgress.value = progress;
       if (progress == 100) {

@@ -14,6 +14,7 @@ class ImageDownLoadController extends GetxController {
 
   RxInt downloadProgress = 0.obs;
   final ReceivePort _port = ReceivePort();
+  RxBool showAd = true.obs;
 
   void downloadFile(String url) async {
     final appDir = await getExternalStorageDirectory();
@@ -38,25 +39,19 @@ class ImageDownLoadController extends GetxController {
       savedDir: appFolder.path,
       showNotification: false,
     );
-    // try {
-    //   Dio().downloadUri(
-    //     Uri.parse(url),
-    //     appDir?.path,
-    //     onReceiveProgress: (count, total) {
-    //       print("-----$count------------$total---------");
-    //     },
-    //   );
-    // } catch (e) {
-    //   print("--nnnnnnnnnnnnnnnnnnnnn    $e");
-    // }
   }
 
   void askingPermission(String url, BuildContext context) async {
+    BuildContext secondContext = context;
+    if (await Permission.storage.isGranted == false) {
+      showAd.value = false;
+    }
     final status = await Permission.storage.request();
     if (status.isGranted) {
       downloadFile(url);
+      showAd.value = true;
     } else {
-      showDialog(
+      await showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
@@ -86,7 +81,8 @@ class ImageDownLoadController extends GetxController {
               ),
               TextButton(
                 onPressed: () {
-                  askingPermission(url, context);
+                  Navigator.pop(context);
+                  askingPermission(url, secondContext);
                 },
                 child: Text(
                   "Yes",
@@ -99,17 +95,7 @@ class ImageDownLoadController extends GetxController {
           );
         },
       );
-
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(
-      //     content: const Text(
-      //       "Please grant permission to access storage on your device from settings",
-      //     ),
-      //     behavior: SnackBarBehavior.floating,
-      //     margin: const EdgeInsets.all(10),
-      //     action: SnackBarAction(label: "Open settings", onPressed: (){}),
-      //   ),
-      // );
+      showAd.value = true;
     }
   }
 
@@ -131,8 +117,6 @@ class ImageDownLoadController extends GetxController {
     }
 
     _port.listen((dynamic data) {
-      // final taskId = (data as List<dynamic>)[0] as String;
-      // final status = DownloadTaskStatus(data[1] as int);
       final progress = data[2] as int;
       downloadProgress.value = progress;
       if (progress == 100) {
@@ -147,14 +131,6 @@ class ImageDownLoadController extends GetxController {
       if (progress < 0) {
         downloadProgress.value = 0;
       }
-      // if (_tasks != null && _tasks!.isNotEmpty) {
-      //   final task = _tasks!.firstWhere((task) => task.taskId == taskId);
-      //   setState(() {
-      //     task
-      //       ..status = status
-      //       ..progress = progress;
-      //   });
-      // }
     });
   }
 

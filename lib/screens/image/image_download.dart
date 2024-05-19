@@ -143,7 +143,12 @@ class ImageDownload extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const BannerComponent(),
+      bottomNavigationBar: Obx(() {
+        if (imageDownLoadController.showAd.value) {
+          return const BannerComponent();
+        }
+        return const SizedBox();
+      }),
     );
   }
 }

@@ -138,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                           break;
                         case 2:
                           launchUrl(
-                            Uri.parse("https://github.com/virajtalaviya/birthday_master_privacy_policy"),
+                            Uri.parse("https://skybirdinfosoft.blogspot.com/2024/03/birthday-master-pro-privacy-policy_29.html"),
                             mode: LaunchMode.externalNonBrowserApplication,
                           );
                           break;
@@ -159,7 +159,6 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
-            // Scaffold.of(context).openDrawer();
             _scaffoldKey.currentState!.openDrawer();
           },
           icon: const Icon(

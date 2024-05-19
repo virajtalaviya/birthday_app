@@ -137,18 +137,6 @@ class _BirthdayQuotesState extends State<BirthdayQuotes> {
                     },
                   );
       }),
-
-      // body: StreamBuilder(
-      //   stream: FirebaseFirestore.instance.collection("quotes/quotes/data").snapshots(),
-      //   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-      //     print("----->${snapshot.data?.docs.length ?? "BHAI BHAI"}");
-      //     return ListView.builder(
-      //       itemBuilder: (context, index) {
-      //         return const Text("");
-      //       },
-      //     );
-      //   },
-      // ),
       bottomNavigationBar: const BannerComponent(),
     );
   }

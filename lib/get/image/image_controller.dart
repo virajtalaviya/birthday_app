@@ -98,12 +98,6 @@ class ImageController extends GetxController {
       gotImages.value = true;
       fileURLs.add(fileURL);
     }
-
-    // await Future.forEach<Reference>(allFiles, (file) async {
-    //   final String fileURL = await file.getDownloadURL();
-    //   gotImages.value = true;
-    //   fileURLs.add(fileURL);
-    // });
   }
 
   @override

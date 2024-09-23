@@ -42,7 +42,8 @@ class GIFDownloadController extends GetxController {
 
   void askingPermission(String url, BuildContext context) async {
     BuildContext secondContext = context;
-    if (await Permission.storage.isGranted == false) {
+    final permissionStatus = await Permission.storage.status;
+    if (permissionStatus == PermissionStatus.denied) {
       showAd.value = false;
     }
     final status = await Permission.storage.request();
